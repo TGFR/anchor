@@ -1,3 +1,4 @@
+/* eslint new-cap:0 */
 const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
@@ -16,7 +17,11 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
-  }
+  },
+  privilege: {
+    type: Sequelize.ENUM('guest', 'authenticated', 'admin'),
+    allowNull: false,
+  },
 })
 
 module.exports = User
@@ -36,7 +41,9 @@ User.generateSalt = function () {
 }
 
 User.encryptPassword = function (plainText, salt) {
-  return crypto.createHash('sha1').update(plainText).update(salt).digest('hex')
+  return crypto.createHash('sha1').update(plainText)
+                                  .update(salt)
+                                  .digest('hex')
 }
 
 /**
