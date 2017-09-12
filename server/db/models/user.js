@@ -20,7 +20,7 @@ const User = db.define('user', {
   },
   privilege: {
     type: Sequelize.ENUM('guest', 'authenticated', 'admin'),
-    allowNull: false,
+    defaultValue: 'authenticated'
   },
 })
 
