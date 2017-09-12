@@ -9,11 +9,14 @@ const Class = db.define('class', {
   },
   description: {
     type: Sequelize.STRING,
-    allowNull: false
+  },
+  location: { // Can be lat long, or a city, state or whatever
+    type: Sequelize.STRING,
   },
   price: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: false,
+    validate: { min: 0 }
   },
   quantity: { // quantity available
     type: Sequelize.INTEGER,

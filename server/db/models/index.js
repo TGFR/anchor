@@ -2,6 +2,7 @@ const User = require('./user')
 const Category = require('./category')
 const Class = require('./class')
 const Order = require('./order')
+const OrderItems = require('./orderItems')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -20,5 +21,6 @@ module.exports = {
   User,
   Category,
   Class,
-  Order
+  Order,
+  OrderItems,
 }
