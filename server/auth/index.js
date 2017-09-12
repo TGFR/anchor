@@ -1,3 +1,4 @@
+/* eslint no-confusing-arrow:0, new-cap:0, curly:0, nonblock-statement-body-position:0 */
 const router = require('express').Router()
 const User = require('../db/models/user')
 module.exports = router
