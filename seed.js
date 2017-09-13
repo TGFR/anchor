@@ -11,8 +11,9 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-const numUsers = 10;
-const numClasses = 5;
+const numUsers = 30;
+const numClasses = 15;
+const numOrders = 20;
 
 // Create users
 const users = [];
@@ -37,6 +38,13 @@ for (let i = 0; i < numClasses; i++) {
   });
 }
 
+const orders = [];
+for (let i = 0; i < numOrders; i++) {
+  orders.push({
+    userId: getRandomInt(1, numUsers)
+  });
+}
+
 dbSync
 .then( () => {
   const createUsers = users.map(user => {
@@ -50,5 +58,12 @@ dbSync
 .then( () => {
   console.log(`Created ${numUsers} users!`)
   console.log(`Created ${numClasses} classes!`)
+  const createOrders = orders.map(order => {
+    return Order.create(order);
+  })
+  return Promise.all(createOrders);
+})
+.then( () => {
+  console.log(`Created ${numOrders} orders!`)
 })
 .catch(console.error.bind(console))
