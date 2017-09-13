@@ -17,11 +17,13 @@ module.exports = router
  * process.env.GOOGLE_CLIENT_SECRET = 'your google client secret'
  * process.env.GOOGLE_CALLBACK = '/your/google/callback'
  */
+const secrets = require('../../secrets');
+// console.log('secrets:\n', secrets);
 
 const googleConfig = {
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK
+  clientID: process.env.GOOGLE_CLIENT_ID || secrets.clientID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET || secrets.clientSecret,
+  callbackURL: process.env.GOOGLE_CALLBACK || secrets.callbackURL
 }
 
 const strategy = new GoogleStrategy(googleConfig, (token, refreshToken, profile, done) => {
