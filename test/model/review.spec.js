@@ -2,34 +2,78 @@
 
 const {expect} = require('chai')
 const db = require('../../server/db')
-const User = db.model('user')
+const Review = db.model('review')
 
-describe('User model', () => {
+describe('Review model', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
 
-  describe('instanceMethods', () => {
-    describe('correctPassword', () => {
-      let cody
-
-      beforeEach(() => {
-        return User.create({
-          email: 'cody@puppybook.com',
-          password: 'bones'
-        })
-          .then(user => {
-            cody = user
-          })
+  describe('validations', () => {
+    it('requires text', () => {
+      const review = Review.create({
+        stars: 2
       })
-
-      it('returns true if the password is correct', () => {
-        expect(cody.correctPassword('bones')).to.be.equal(true)
+      .catch(err => {
+        expect(err).to.exist;
+        expect(err).to.be.an('error')
       })
+    })
 
-      it('returns false if the password is incorrect', () => {
-        expect(cody.correctPassword('bonez')).to.be.equal(false)
+    it('requires stars', () => {
+      const review = Review.create({
+        text: 'dasfbjkads'
       })
-    }) // end describe('correctPassword')
-  }) // end describe('instanceMethods')
-}) // end describe('User model')
+      .catch(err => {
+        expect(err).to.exist;
+        expect(err).to.be.an('error')
+      })
+    })
+
+    //TODO: We are not able to fail this test yet
+    it('text should be no more than 400 characters long', () => {
+      const review = Review.create({
+        text: `I am a string of characters.
+              I am a string of characters.
+              I am a string of characters.
+              I am a string of characters.
+              I am a string of characters.
+              I am a string of characters.
+              I am a string of characters.
+              I am a string of characters.
+              I am a string of characters.
+              I am a string of characters.
+              `,
+        stars: 2,
+      })
+      .catch(err => {
+        expect(err).to.exist;
+        expect(err).to.be.an('error')
+      })
+    })
+  })
+
+  // // describe('instanceMethods', () => {
+  // //   describe('correctPassword', () => {
+  // //     let cody
+
+  // //     beforeEach(() => {
+  // //       return Review.create({
+  // //         email: 'cody@puppybook.com',
+  // //         password: 'bones'
+  // //       })
+  // //         .then(review => {
+  // //           cody = review
+  // //         })
+  // //     })
+
+  // //     it('returns true if the password is correct', () => {
+  // //       expect(cody.correctPassword('bones')).to.be.equal(true)
+  // //     })
+
+  // //     it('returns false if the password is incorrect', () => {
+  // //       expect(cody.correctPassword('bonez')).to.be.equal(false)
+  // //     })
+  //   }) // end describe('correctPassword')
+  // }) // end describe('instanceMethods')
+}) // end describe('Review model')
