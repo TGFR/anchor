@@ -20,7 +20,7 @@ const getAllClasses = classes => ({type: GET_ALL_CLASSES, classes })
  */
 export const fetchAllClasses = () => {
   return dispatch => {
-    return axios.get('/classes')
+    return axios.get('/api/classes')
     .then(res =>
       dispatch(getAllClasses(res.data || defaultClasses)))
       .catch(err => console.log(err))

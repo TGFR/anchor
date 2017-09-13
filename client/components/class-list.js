@@ -14,7 +14,6 @@ export default class ClassList extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mounted claslist')
     axios.get('/api/classes')
       .then(res => res.data)
       .then(classes => {
@@ -29,7 +28,7 @@ export default class ClassList extends React.Component {
         <Card.Group>
         {this.state.classes.map(lesson => {
           return (
-            <Card>
+            <Card key={lesson.id}>
               <Image src={lesson.photo} />
               <Card.Content>
                   {lesson.title}
