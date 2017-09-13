@@ -14,7 +14,9 @@ To build your own version of Anchor, use the following steps:
 
 - ```git clone``` into a directory of your choice
 - ```createdb anchor```
+- ```createdb anchor-test```
 - ```npm install```
+- ```node seed```
 - ```npm run start-dev``` or ```npm start``` (depending on whether you would like to run in development mode)
 
 ## Credit where credit is due
