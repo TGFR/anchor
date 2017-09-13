@@ -38,6 +38,7 @@ for (let i = 0; i < numClasses; i++) {
   });
 }
 
+// Create orders
 const orders = [];
 for (let i = 0; i < numOrders; i++) {
   orders.push({
@@ -53,17 +54,40 @@ dbSync
   const createClasses = classes.map(classItem => {
     return Class.create(classItem);
   })
-  return Promise.all([createUsers, createClasses]);
+  return Promise.all([
+    Promise.all(createUsers),
+    Promise.all(createClasses),
+  ]);
 })
-.then( () => {
+.spread( (users, classes) => {
   console.log(`Created ${numUsers} users!`)
   console.log(`Created ${numClasses} classes!`)
   const createOrders = orders.map(order => {
     return Order.create(order);
   })
-  return Promise.all(createOrders);
+  return Promise.all([
+    users,
+    classes,
+    Promise.all(createOrders),
+  ])
 })
-.then( () => {
+.spread( (users, classes, orders) => {
   console.log(`Created ${numOrders} orders!`)
+  // Create orderItems
+  const orderItems = []
+  for (let i = 0; i < numOrders; i++) {
+    const classId = getRandomInt(1, numClasses);
+    const orderId = i + 1;
+    const price = classes[classId - 1].price
+    orderItems.push({
+      orderId,
+      classId,
+      price,
+      quantity: getRandomInt(1, 5),
+    });
+  }
+  const createOrderItems = orderItems.map(orderItem => {
+    return OrderItems.create(orderItem);
+  })
 })
 .catch(console.error.bind(console))
