@@ -31,7 +31,7 @@ describe('Review model', () => {
     })
 
     //TODO: We are not able to fail this test yet
-    it('text should be no more than 400 characters long', () => {
+    it('text should be 400 characters or less', () => {
       const review = Review.create({
         text: `I am a string of characters.
               I am a string of characters.
@@ -42,14 +42,16 @@ describe('Review model', () => {
               I am a string of characters.
               I am a string of characters.
               I am a string of characters.
-              I am a string of characters.
-              `,
+              I am a string of characters.`,
         stars: 2,
       })
-      .catch(err => {
-        expect(err).to.exist;
-        expect(err).to.be.an('error')
+      .then(res => {
+        console.log('res = ', res)
       })
+      // .catch(err => {
+      //   expect(err).to.exist;
+      //   expect(err).to.be.an('error')
+      // })
     })
   })
 
