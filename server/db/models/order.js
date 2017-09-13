@@ -4,7 +4,8 @@ const db = require('../db')
 const Order = db.define('order', {
   orderDate: {
     type: Sequelize.DATE,
-    allowNull: false
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
   }
 }, {
   getterMethods: {
