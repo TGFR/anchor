@@ -3,42 +3,32 @@ import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Card, Icon, Image } from 'semantic-ui-react'
 import axios from 'axios'
-
-export default class ClassList extends React.Component {
-
-  constructor() {
-    super();
-    this.state = {
-      classes: []
-    }
-  }
-
-  componentDidMount() {
-    axios.get('/api/classes')
-      .then(res => res.data)
-      .then(classes => {
-        this.setState({ classes })
-      })
-      .catch(console.error.bind(console));
-  }
-
-  render() {
-    return (
-      <div>
-        <Card.Group>
-        {this.state.classes.map(lesson => {
-          return (
-            <Card key={lesson.id}>
-              <Image src={lesson.photo} />
-              <Card.Content>
-                  {lesson.title}
-              </Card.Content>
-            </Card>
-          );
-        })}
-        </Card.Group>
-      </div>
-    )
-  }
-
+/**
+ * COMPONENT
+ */
+const ClassList = props => {
+  const {classes} = props
+  return (
+    <div>
+      <Card.Group>
+      {classes.map(lesson => {
+        return (
+          <Card key={lesson.id}>
+            <Image src={lesson.photo} />
+            <Card.Content>
+                {lesson.title}
+            </Card.Content>
+          </Card>
+        );
+      })}
+      </Card.Group>
+    </div>
+  )
 }
+
+/**
+ * CONTAINER
+ */
+const mapState = ({classes}) => ({classes})
+
+export default connect(mapState, null)(ClassList)
