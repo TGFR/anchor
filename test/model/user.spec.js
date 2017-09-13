@@ -10,6 +10,27 @@ describe('User model', () => {
   })
 
   describe('instanceMethods', () => {
+    let maria
+
+    beforeEach(() => {
+      return User.create({
+        email: 'maria@kittenbook.com',
+        password: 'tuna'
+      })
+        .then(user => {
+          maria = user
+        })
+    })
+
+    it('has the appropriate association methods', () => {
+      expect(maria.getClasses).to.be.a('function')
+      expect(maria.getReviews).to.be.a('function')
+      expect(maria.getOrders).to.be.a('function')
+      expect(maria.addClass).to.be.a('function')
+      expect(maria.addReview).to.be.a('function')
+      expect(maria.addOrder).to.be.a('function')
+    })
+
     describe('correctPassword', () => {
       let cody
 
@@ -30,6 +51,7 @@ describe('User model', () => {
       it('returns false if the password is incorrect', () => {
         expect(cody.correctPassword('bonez')).to.be.equal(false)
       })
+
     }) // end describe('correctPassword')
   }) // end describe('instanceMethods')
 }) // end describe('User model')
