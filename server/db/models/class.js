@@ -8,7 +8,7 @@ const Class = db.define('class', {
     allowNull: false
   },
   description: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
   },
   location: { // Can be lat long, or a city, state or whatever
     type: Sequelize.STRING,
