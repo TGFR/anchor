@@ -14,6 +14,7 @@ function getRandomInt(min, max) {
 const numUsers = 30;
 const numClasses = 15;
 const numOrders = 20;
+const numCategories = 5;
 
 // Create users
 const users = [];
@@ -46,7 +47,16 @@ for (let i = 0; i < numOrders; i++) {
   });
 }
 
+// Create categories
+const categories = [];
+for (let i = 0; i < numCategories; i++) {
+  categories.push({
+    title: faker.lorem.word(),
+  });
+}
+
 dbSync
+/* ----- Create Users, Classes, and Categories -----  */
 .then( () => {
   const createUsers = users.map(user => {
     return User.create(user);
@@ -54,24 +64,33 @@ dbSync
   const createClasses = classes.map(classItem => {
     return Class.create(classItem);
   })
+  const createCategories = categories.map(category => {
+    return Category.create(category);
+  })
   return Promise.all([
     Promise.all(createUsers),
     Promise.all(createClasses),
+    Promise.all(createCategories),
   ]);
 })
-.spread( (users, classes) => {
+/* ----- Create Orders -----  */
+.spread( (users, classes, categories) => {
   console.log(`Created ${numUsers} users!`)
   console.log(`Created ${numClasses} classes!`)
+  console.log(`Created ${numCategories} categories!`)
   const createOrders = orders.map(order => {
     return Order.create(order);
   })
   return Promise.all([
     users,
     classes,
+    categories,
     Promise.all(createOrders),
   ])
 })
-.spread( (users, classes, orders) => {
+/* ----- Create OrderItems (associated with Order and Class) -----  */
+/* ----- and associates classes with categories -----  */
+.spread( (users, classes, categories, orders) => {
   console.log(`Created ${numOrders} orders!`)
   // Create orderItems
   const orderItems = []
@@ -86,8 +105,25 @@ dbSync
       quantity: getRandomInt(1, 5),
     });
   }
+  for (let i = 0; i < numClasses; i++) {
+    let randomCategory = categories[Math.floor(Math.random() * numCategories)]
+    classes[i].addCategory(randomCategory)
+    if (Math.random() < 0.25) {
+      randomCategory = categories[Math.floor(Math.random() * numCategories)]
+      classes[i].addCategory(randomCategory)
+    }
+  }
   const createOrderItems = orderItems.map(orderItem => {
     return OrderItems.create(orderItem);
   })
+  return Promise.all([
+    users,
+    classes,
+    categories,
+    orders,
+    Promise.all(createOrderItems),
+  ])
 })
+/* ----- TODO Create Reviews -----  */
+/* ----- Catch Errors -----  */
 .catch(console.error.bind(console))
