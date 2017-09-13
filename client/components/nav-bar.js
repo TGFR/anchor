@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Menu } from 'semantic-ui-react'
+import { Menu, Button, Icon } from 'semantic-ui-react'
 
 
 export default class NavBar extends React.Component {
@@ -24,7 +24,7 @@ export default class NavBar extends React.Component {
           active={activeItem === "logo"}
           onClick={this.handleItemClick}
         >
-          Logo
+          <Icon name="anchor" size="huge" />
         </Menu.Item>
 
         <Menu.Item
@@ -35,32 +35,36 @@ export default class NavBar extends React.Component {
           Browse All
         </Menu.Item>
 
-        <Menu.Menu position="right">
-          <Menu.Item
-            name='login'
-            active={activeItem === 'login'}
-            onClick={this.handleItemClick}
-          >
-            Log in
+        {this.state.admin && <Menu.Item
+          name='admin'
+          onClick={this.handleItemClick}
+        >
+          <Button color="purple">
+            Admin Page
+        </Button>
+        </Menu.Item>
+        }
+
+          <Menu.Menu position="right">
+            <Menu.Item
+              name='login'
+              active={activeItem === 'login'}
+              onClick={this.handleItemClick}
+            >
+              <Button primary>
+              Log in/Sign up
+              </Button>
           </Menu.Item>
 
-          <Menu.Item
-            name='signup'
-            active={activeItem === 'signup'}
-            onClick={this.handleItemClick}
-          >
-            Sign Up
-          </Menu.Item>
 
-
-          <Menu.Item
-            name='cart'
-            active={activeItem === 'cart'}
-            onClick={this.handleItemClick}
-          >
-            My Cart
+            <Menu.Item
+              name='cart'
+              active={activeItem === 'cart'}
+              onClick={this.handleItemClick}
+            >
+              My Cart
           </Menu.Item>
-        </Menu.Menu>
+          </Menu.Menu>
 
       </Menu>
     )
