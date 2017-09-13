@@ -124,6 +124,10 @@ dbSync
     Promise.all(createOrderItems),
   ])
 })
+.then(() => {
+  db.close();
+  return null;
+})
 /* ----- TODO Create Reviews -----  */
 /* ----- Catch Errors -----  */
 .catch(console.error.bind(console))
