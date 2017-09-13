@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {logout} from '../store'
-// import ClassList from './class-list'
 import NavBar from './nav-bar';
 
 /**
@@ -13,7 +12,7 @@ import NavBar from './nav-bar';
  *  rendered out by the component's `children`.
  */
 const Main = (props) => {
-  const {children, handleClick, isLoggedIn} = props
+  const {children, handleClick, isLoggedIn } = props
 
   return (
     <div>
