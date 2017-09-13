@@ -56,25 +56,33 @@ for (let i = 0; i < numCategories; i++) {
 }
 
 dbSync
-/* ----- Create Users, Classes, and Categories -----  */
+/* ----- Create Users and Categories -----  */
 .then( () => {
   const createUsers = users.map(user => {
     return User.create(user);
-  })
-  const createClasses = classes.map(classItem => {
-    return Class.create(classItem);
   })
   const createCategories = categories.map(category => {
     return Category.create(category);
   })
   return Promise.all([
     Promise.all(createUsers),
-    Promise.all(createClasses),
     Promise.all(createCategories),
   ]);
 })
+/* ----- Create Classes -----  */
+.spread( (users, categories) => {
+  const createClasses = classes.map(classItem => {
+    classItem.userId = getRandomInt(1,numUsers)
+    return Class.create(classItem);
+  })
+  return Promise.all([
+    users,
+    categories,
+    Promise.all(createClasses),
+  ]);
+})
 /* ----- Create Orders -----  */
-.spread( (users, classes, categories) => {
+.spread( (users, categories, classes ) => {
   console.log(`Created ${numUsers} users!`)
   console.log(`Created ${numClasses} classes!`)
   console.log(`Created ${numCategories} categories!`)
