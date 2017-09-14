@@ -14,7 +14,9 @@ const ClassList = props => {
       {classes.map(lesson => {
         return (
           <Card key={lesson.id}>
-            <Image src={lesson.photo} />
+            <Link to={`/classes/${lesson.id}`}>
+              <Image src={lesson.photo} />
+            </Link>
             <Card.Content>
                 {lesson.title}
             </Card.Content>
