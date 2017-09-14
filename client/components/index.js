@@ -6,4 +6,6 @@
 export {default as Main} from './main'
 export {default as UserHome} from './user-home'
 export {default as ClassList} from './class-list'
+export {default as OrderList} from './order-list'
+export {default as NavBar} from './nav-bar'
 export {Login, Signup} from './auth-form'
