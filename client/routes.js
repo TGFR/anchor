@@ -4,8 +4,8 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Login, Signup, UserHome, ClassList} from './components'
-import {me, fetchAllClasses} from './store'
+import {Main, Login, Signup, UserHome, ClassList, OrderList} from './components'
+import {me, fetchAllClasses, fetchOrders, fetchAllUsers} from './store'
 /**
  * COMPONENT
  */
@@ -30,6 +30,7 @@ class Routes extends Component {
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
                   <Route path='/home' component={UserHome} />
+                  <Route path='/admin/orders' component={OrderList} />
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}
@@ -57,6 +58,8 @@ const mapDispatch = (dispatch) => {
     loadInitialData: () => {
       dispatch(me())
       dispatch(fetchAllClasses())
+      dispatch(fetchOrders())
+      dispatch(fetchAllUsers())
     }
   }
 }
