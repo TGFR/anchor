@@ -4,13 +4,8 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-<<<<<<< Updated upstream
-import {Main, Login, Signup, UserHome, ClassList, OrderList} from './components'
+import {Main, Login, Signup, UserHome, ClassList, OrderList, SingleClass} from './components'
 import {me, fetchAllClasses, fetchOrders, fetchAllUsers} from './store'
-=======
-import {Main, Login, Signup, UserHome, ClassList, SingleClass} from './components'
-import {me, fetchAllClasses} from './store'
->>>>>>> Stashed changes
 /**
  * COMPONENT
  */
