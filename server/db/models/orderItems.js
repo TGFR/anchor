@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Class = require('./class')
 
 const OrderItems = db.define('orderItems', {
   price: {
@@ -11,14 +12,18 @@ const OrderItems = db.define('orderItems', {
     allowNull: false,
     validate: { min: 1 }
   },
+}, {
+  getterMethods: {
+    classTitle() {
+      return true; // TODO: Implement this
+    }
+  }
 })
 module.exports = OrderItems;
 
 /**
  * instanceMethods
  */
-
-//[CODE HERE]
 
 /**
  * classMethods
