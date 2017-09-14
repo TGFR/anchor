@@ -4,8 +4,13 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
+<<<<<<< Updated upstream
 import {Main, Login, Signup, UserHome, ClassList, OrderList} from './components'
 import {me, fetchAllClasses, fetchOrders, fetchAllUsers} from './store'
+=======
+import {Main, Login, Signup, UserHome, ClassList, SingleClass} from './components'
+import {me, fetchAllClasses} from './store'
+>>>>>>> Stashed changes
 /**
  * COMPONENT
  */
@@ -22,9 +27,11 @@ class Routes extends Component {
         <Main>
           <Switch>
             {/* Routes placed here are available to all visitors */}
-            <Route path='/classes' component={ClassList} />
+            <Route exact path='/classes' component={ClassList} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
+            <Route path='/classes/:id' component={SingleClass} />
+
             {
               isLoggedIn &&
                 <Switch>
