@@ -8,6 +8,10 @@ const User = db.model('user')
 const Class = db.model('class')
 
 describe('OrderItems model', () => {
+  console.log(`
+    ~~~~~~~~~~~~~~~
+    NOTE: OrderItems tests are not yet implemented!
+    ~~~~~~~~~~~~~~~`);
   beforeEach(() => {
     return db.sync({ force: true })
   })
@@ -18,6 +22,7 @@ describe('OrderItems model', () => {
     let bob;
     let welding;
     let mariaOrder;
+    let mariaOrderItem;
 
     beforeEach(() => {
 
@@ -43,9 +48,9 @@ describe('OrderItems model', () => {
             description: 'Learn to weld and you will be more attractive to everyone.',
             location: '122 Street Street',
             photo: 'https://upload.wikimedia.org/wikipedia/commons/a/aa/GMAW.welding.af.ncs.jpg',
-            price: 30,
-            quantity: 1,
-            hours: 500,
+            price: 300,
+            quantity: 5,
+            hours: 40,
             userId: bobbity.id
           })
         })
@@ -57,25 +62,16 @@ describe('OrderItems model', () => {
           return OrderItems.create({
             orderId: order.id,
             classId: lesson.id,
-            price: 2,
-            quantity: 1,
+            price: 200,
+            quantity: 2,
           })
+        })
+        .then( orderItem => {
+          mariaOrderItem = orderItem;
         })
     })
 
-    it('has the appropriate association methods', () => {
-      // console.log('maria', maria);
-      // console.log('welding', welding);
-      // console.log('mariaOrder', mariaOrder);
-      expect(maria.getClasses).to.be.a('function')
-      expect(maria.getReviews).to.be.a('function')
-      expect(maria.getOrders).to.be.a('function')
-      expect(maria.addClass).to.be.a('function')
-      expect(maria.addReview).to.be.a('function')
-      expect(maria.addOrder).to.be.a('function')
-    })
-
-    describe('correctPassword', () => {
+    describe('has correct price', () => {
       let cody
 
       beforeEach(() => {
