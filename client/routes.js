@@ -11,7 +11,8 @@ import {
         UserHome,
         ClassList,
         OrderList,
-        SingleClass
+        SingleClass,
+        UserOrders,
       } from './components'
 import {
         me,
@@ -50,6 +51,7 @@ class Routes extends Component {
                   {/* Routes placed here are only available after logging in */}
                   <Route path='/home' component={UserHome} />
                   <Route path='/admin/orders' component={OrderList} />
+                  <Route path='/orders' component={UserOrders} />
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}
