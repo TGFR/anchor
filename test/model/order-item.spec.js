@@ -51,7 +51,9 @@ xdescribe('OrderItems model', () => {
         .then( ([lesson, order]) => {
           return OrderItems.create({
             orderId: order.id,
-
+            classId: lesson.id,
+            price: 2,
+            quantity: 1,
           })
         })
     })
