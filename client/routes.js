@@ -4,8 +4,24 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Login, Signup, UserHome, ClassList, OrderList, SingleClass} from './components'
-import {me, fetchAllClasses, fetchOrders, fetchAllUsers, fetchMyOrders} from './store'
+import {
+        Main,
+        Login,
+        Signup,
+        UserHome,
+        ClassList,
+        OrderList,
+        SingleClass
+      } from './components'
+import {
+        me,
+        fetchAllClasses,
+        fetchOrders,
+        fetchAllUsers,
+        fetchMyOrders,
+        clearMyOrders,
+        clearOrders,
+      } from './store'
 
 /**
  * COMPONENT
@@ -61,10 +77,17 @@ const mapDispatch = (dispatch) => {
   return {
     loadInitialData: () => {
       dispatch(me())
+      .then( res => {
+        dispatch(fetchMyOrders(res.user.id))
+      })
+      .catch( err => {
+        dispatch(clearMyOrders())
+        dispatch(clearOrders())
+        console.error(err)
+      })
       dispatch(fetchAllClasses())
       dispatch(fetchOrders())
       dispatch(fetchAllUsers())
-      dispatch(fetchMyOrders())
     }
   }
 }
