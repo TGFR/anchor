@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 const OrderList = (props) => {
   const {orders, users} = props;
-  const orderTableRows = orders.map( order => {
+  const orderTableRows = users.length ? orders.map( order => {
     const user = users.find(foundUser => foundUser.id === order.userId)
     return (
       <Table.Row key={order.id}>
@@ -19,7 +19,7 @@ const OrderList = (props) => {
         <Table.Cell>{order.subtotal}</Table.Cell>
       </Table.Row>
     )
-  })
+  }) : <Table.Row></Table.Row>
   return (
     <div>
       <Header as='h2' textAlign='center'>Orders</Header>
