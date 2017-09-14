@@ -1,23 +1,58 @@
 /* global xdescribe beforeEach xit */
 
-const {expect} = require('chai')
+const { expect } = require('chai')
 const db = require('../../server/db')
 const OrderItems = db.model('orderItems')
 
 xdescribe('OrderItems model', () => {
   beforeEach(() => {
-    return db.sync({force: true})
+    return db.sync({ force: true })
   })
 
   xdescribe('instanceMethods', () => {
-    let welding
+
+    let maria;
+    let bob;
+    let welding;
+    let mariaOrder;
 
     beforeEach(() => {
-      return OrderItems.create({
 
+
+
+      let orderPromise = User.create({
+        email: 'maria@kittenbook.com',
+        password: 'tuna',
       })
-        .then(user => {
-          maria = user
+        .then((maria) => {
+          return Order.create({
+            userId: maria.id,
+          })
+        })
+
+      let classPromise = User.create({
+        email: 'bob@bobbity.bob',
+        password: 'torch',
+      })
+        .then((bobbity) => {
+          return Class.create({
+            title: 'Welding is fun and profitable',
+            description: 'Learn to weld and you will be more attractive to everyone.',
+            location: '122 Street Street',
+            photo: 'https://upload.wikimedia.org/wikipedia/commons/a/aa/GMAW.welding.af.ncs.jpg',
+            price: 30,
+            quantity: 1,
+            hours: 500,
+            userId: bobbity.id
+          })
+        })
+
+        Promise.all([classPromise, orderPromise])
+        .then( ([lesson, order]) => {
+          return OrderItems.create({
+            orderId: order.id,
+
+          })
         })
     })
 
