@@ -17,11 +17,6 @@ const Main = (props) => {
   return (
     <div>
       <NavBar />
-<<<<<<< Updated upstream
-      <hr />
-=======
-
->>>>>>> Stashed changes
       {children}
     </div>
   )
