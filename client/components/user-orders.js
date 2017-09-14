@@ -5,9 +5,15 @@ import { connect } from 'react-redux';
 const UserOrders = (props) => {
   const {myOrders} = props;
   console.log('myOrders:', myOrders);
+  const ordersAccordion = myOrders.map( order => {
+    return {
+      title: order.id,
+      content: 'hello',
+    }
+  })
   return (
     <div>
-      <Accordion panels={myOrders} styled />
+      <Accordion panels={ordersAccordion} styled />
     </div>
   )
 }
