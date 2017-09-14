@@ -24,15 +24,19 @@ export default class NavBar extends React.Component {
           active={activeItem === "logo"}
           onClick={this.handleItemClick}
         >
-          <Icon name="anchor" size="huge" />
+          <Link to='/'>
+            <Icon name="anchor" size="huge" />
+          </Link>
         </Menu.Item>
-
+      
         <Menu.Item
           name='browseAll'
           active={activeItem === 'browseAll'}
           onClick={this.handleItemClick}
         >
-          Browse All
+          <Link to='/classes'>
+            Browse All
+          </Link>
         </Menu.Item>
 
         {this.state.admin && <Menu.Item
