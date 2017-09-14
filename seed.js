@@ -18,10 +18,17 @@ const numCategories = 5;
 
 // Create users
 const users = [];
-for (let i = 0; i < numUsers; i++) {
+users.push({
+  email: 'admin@admin.com',
+  password: 'admin',
+  privilege: 'admin',
+});
+for (let i = 1; i < numUsers; i++) {
+  const isGuest = Math.random() < 0.25;
   users.push({
     email: faker.internet.email(),
     password: faker.random.alphaNumeric(10),
+    privilege: isGuest ? 'guest' : 'authenticated',
   });
 }
 
