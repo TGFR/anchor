@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 const OrderList = (props) => {
   const {orders, users} = props;
   const orderTableRows = orders.map( order => {
-    const user = users.find(user => user.id === order.userId)
+    const user = users.find(foundUser => foundUser.id === order.userId)
     return (
       <Table.Row key={order.id}>
         <Table.Cell collapsing>
