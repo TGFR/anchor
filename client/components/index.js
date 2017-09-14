@@ -6,10 +6,7 @@
 export {default as Main} from './main'
 export {default as UserHome} from './user-home'
 export {default as ClassList} from './class-list'
-<<<<<<< Updated upstream
 export {default as OrderList} from './order-list'
 export {default as NavBar} from './nav-bar'
-=======
 export {default as SingleClass} from './singleClass'
->>>>>>> Stashed changes
 export {Login, Signup} from './auth-form'
