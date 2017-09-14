@@ -4,13 +4,9 @@ import {Router} from 'react-router'
 import {Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-<<<<<<< Updated upstream
-import {Main, Login, Signup, UserHome, ClassList, OrderList} from './components'
-import {me, fetchAllClasses, fetchOrders, fetchAllUsers} from './store'
-=======
-import {Main, Login, Signup, UserHome, ClassList, SingleClass} from './components'
-import {me, fetchAllClasses} from './store'
->>>>>>> Stashed changes
+import {Main, Login, Signup, UserHome, ClassList, OrderList, SingleClass} from './components'
+import {me, fetchAllClasses, fetchOrders, fetchAllUsers, fetchMyOrders} from './store'
+
 /**
  * COMPONENT
  */
@@ -61,12 +57,14 @@ const mapState = (state) => {
 }
 
 const mapDispatch = (dispatch) => {
+  // TODO get current user id
   return {
     loadInitialData: () => {
       dispatch(me())
       dispatch(fetchAllClasses())
       dispatch(fetchOrders())
       dispatch(fetchAllUsers())
+      dispatch(fetchMyOrders())
     }
   }
 }
