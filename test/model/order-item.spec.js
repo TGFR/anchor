@@ -1,15 +1,18 @@
-/* global xdescribe beforeEach xit */
+/* global describe beforeEach xit */
 
 const { expect } = require('chai')
 const db = require('../../server/db')
 const OrderItems = db.model('orderItems')
+const Order = db.model('order')
+const User = db.model('user')
+const Class = db.model('class')
 
-xdescribe('OrderItems model', () => {
+describe('OrderItems model', () => {
   beforeEach(() => {
     return db.sync({ force: true })
   })
 
-  xdescribe('instanceMethods', () => {
+  describe('instanceMethods', () => {
 
     let maria;
     let bob;
@@ -18,15 +21,14 @@ xdescribe('OrderItems model', () => {
 
     beforeEach(() => {
 
-
-
       let orderPromise = User.create({
         email: 'maria@kittenbook.com',
         password: 'tuna',
       })
-        .then((maria) => {
+        .then((mariaCreated) => {
+          maria = mariaCreated
           return Order.create({
-            userId: maria.id,
+            userId: mariaCreated.id,
           })
         })
 
@@ -35,6 +37,7 @@ xdescribe('OrderItems model', () => {
         password: 'torch',
       })
         .then((bobbity) => {
+          bob = bobbity;
           return Class.create({
             title: 'Welding is fun and profitable',
             description: 'Learn to weld and you will be more attractive to everyone.',
@@ -47,8 +50,10 @@ xdescribe('OrderItems model', () => {
           })
         })
 
-        Promise.all([classPromise, orderPromise])
+        return Promise.all([classPromise, orderPromise])
         .then( ([lesson, order]) => {
+          welding = lesson;
+          mariaOrder = order;
           return OrderItems.create({
             orderId: order.id,
             classId: lesson.id,
@@ -58,7 +63,10 @@ xdescribe('OrderItems model', () => {
         })
     })
 
-    xit('has the appropriate association methods', () => {
+    it('has the appropriate association methods', () => {
+      // console.log('maria', maria);
+      // console.log('welding', welding);
+      // console.log('mariaOrder', mariaOrder);
       expect(maria.getClasses).to.be.a('function')
       expect(maria.getReviews).to.be.a('function')
       expect(maria.getOrders).to.be.a('function')
@@ -67,7 +75,7 @@ xdescribe('OrderItems model', () => {
       expect(maria.addOrder).to.be.a('function')
     })
 
-    xdescribe('correctPassword', () => {
+    describe('correctPassword', () => {
       let cody
 
       beforeEach(() => {
@@ -88,6 +96,6 @@ xdescribe('OrderItems model', () => {
         expect(cody.correctPassword('bonez')).to.be.equal(false)
       })
 
-    }) // end xdescribe('correctPassword')
-  }) // end xdescribe('instanceMethods')
-}) // end xdescribe('User model')
+    }) // end describe('correctPassword')
+  }) // end describe('instanceMethods')
+}) // end describe('User model')
