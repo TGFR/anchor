@@ -19,6 +19,13 @@ router.post('/', function (req, res, next) {
   .catch(next);
 })
 
+router.get('/:id', function (req, res, next) {
+   Class.findOne({where:{id: req.params.id}})
+     .then(classItem => res.json(classItem))
+     .catch(next);
+})
+ 
+
 //updates a single class in the database
 router.put('/:id', function (req, res, next) {
   Class.findById(req.params.id)
