@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Menu, Button, Icon } from 'semantic-ui-react'
+import { Menu, Button, Icon, Modal } from 'semantic-ui-react'
+import {Login, Signup} from './auth-form';
 
 
 export default class NavBar extends React.Component {
@@ -11,8 +12,12 @@ export default class NavBar extends React.Component {
     this.state = {
       loggedIn: false,
       admin: false,
+      activeItem: 'Login',
     };
   }
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
 
   render() {
     const { activeItem } = this.state
@@ -21,18 +26,14 @@ export default class NavBar extends React.Component {
       <Menu>
         <Menu.Item
           name="logo"
-          active={activeItem === "logo"}
-          onClick={this.handleItemClick}
         >
           <Link to='/'>
             <Icon name="anchor" size="huge" />
           </Link>
         </Menu.Item>
-      
+
         <Menu.Item
           name='browseAll'
-          active={activeItem === 'browseAll'}
-          onClick={this.handleItemClick}
         >
           <Link to='/classes'>
             Browse All
@@ -52,12 +53,18 @@ export default class NavBar extends React.Component {
           <Menu.Menu position="right">
             <Menu.Item
               name='login'
-              active={activeItem === 'login'}
-              onClick={this.handleItemClick}
             >
-              <Button primary>
+            <Modal trigger={
+            <Button primary>
               Log in/Sign up
-              </Button>
+            </Button> }>
+            <Menu tabular>
+                <Menu.Item name='Login' active={activeItem === 'Login'} onClick={this.handleItemClick} />
+                <Menu.Item name='SignUp' active={activeItem === 'SignUp'} onClick={this.handleItemClick} />
+                {activeItem === 'Login' ? <Login /> : <Signup />}
+            </Menu>
+
+            </Modal>
           </Menu.Item>
 
 
