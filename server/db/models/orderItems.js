@@ -22,9 +22,6 @@ module.exports = OrderItems;
 /**
  * instanceMethods
  */
-OrderItems.prototype.getClassTitle = () => {
-  console.log('this:', this);
-}
 
 /**
  * classMethods
