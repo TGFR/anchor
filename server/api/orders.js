@@ -30,7 +30,8 @@ router.get('/users/:id', function (req, res, next) {
 
 //find a single order by id
 router.get('/:id', function (req, res, next) {
-  Order.findAll({where: {userId: req.params.id} })
+  const id = Number(req.params.id);
+  Order.findById(id)
     .then(order => res.json(order))
     .catch(next);
 })
