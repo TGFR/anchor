@@ -87,7 +87,7 @@ class NavBar extends React.Component {
 
 }
 
-const mapProps = ({ user }) => ({ loggedIn: Object.keys(user).length > 0 });
+const mapProps = ({ user }) => ({ loggedIn: user.privilege === 'admin' || 'authenticated'});
 // const mapState = ({user}) => ({user})
 
 const mapDispatch = dispatch => ({
