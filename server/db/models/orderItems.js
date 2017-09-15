@@ -13,10 +13,8 @@ const OrderItems = db.define('orderItems', {
     validate: { min: 1 }
   },
 }, {
-  getterMethods: {
-    classTitle() {
-      return true; // TODO: Implement this
-    }
+  defaultScope: {
+    include: [Class]
   }
 })
 module.exports = OrderItems;
@@ -24,6 +22,9 @@ module.exports = OrderItems;
 /**
  * instanceMethods
  */
+OrderItems.prototype.getClassTitle = () => {
+  console.log('this:', this);
+}
 
 /**
  * classMethods
