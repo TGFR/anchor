@@ -46,14 +46,12 @@ router.post('/', function (req, res, next) {
 })
 
 
+//updates a user in the database
 router.put('/:id', function (req, res, next) {
-
-  User.update(
-    req.body,
-    {where: {id: req.params.id}}
-  )
-  .then(function(classItem) {
-    res.json(classItem);
+  User.findById(req.params.id)
+  .then(user => user.update(req.body))
+  .then(updatedUser => {
+    res.json(updatedUser);
   })
   .catch(next);
 })
