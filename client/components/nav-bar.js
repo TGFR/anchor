@@ -3,9 +3,9 @@ import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Menu, Button, Icon, Modal } from 'semantic-ui-react'
 import {Login, Signup} from './auth-form';
+import {logout} from '../store'
 
-
-export default class NavBar extends React.Component {
+class NavBar extends React.Component {
 
   constructor() {
     super()
@@ -54,17 +54,18 @@ export default class NavBar extends React.Component {
             <Menu.Item
               name='login'
             >
-            <Modal trigger={
-            <Button primary>
-              Log in/Sign up
-            </Button> }>
-            <Menu tabular>
-                <Menu.Item name='Login' active={activeItem === 'Login'} onClick={this.handleItemClick} />
-                <Menu.Item name='SignUp' active={activeItem === 'SignUp'} onClick={this.handleItemClick} />
-                {activeItem === 'Login' ? <Login /> : <Signup />}
-            </Menu>
+            {!this.props.loggedIn ?
+                <Modal trigger={
+                <Button primary>
+                  Log in/Sign up
+                </Button> }>
+                    <Menu tabular>
+                        <Menu.Item name='Login' active={activeItem === 'Login'} onClick={this.handleItemClick} />
+                        <Menu.Item name='SignUp' active={activeItem === 'SignUp'} onClick={this.handleItemClick} />
+                        {activeItem === 'Login' ? <Login /> : <Signup />}
+                    </Menu>
 
-            </Modal>
+                </Modal> : <Button onClick={this.props.logOut} primary> Logout </Button>}
           </Menu.Item>
 
 
@@ -82,3 +83,16 @@ export default class NavBar extends React.Component {
   }
 
 }
+
+const mapProps = ({ user }) => ({ loggedIn: Object.keys(user).length > 0 });
+// const mapState = ({user}) => ({user})
+
+const mapDispatch = dispatch => ({
+  logOut: () => {
+    dispatch(logout())
+    history.push('/');
+  }
+
+})
+
+export default connect(mapProps, mapDispatch)(NavBar)
