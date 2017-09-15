@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 const UserOrders = (props) => {
   const {myOrders} = props;
-  console.log('myOrders:', myOrders);
   const ordersAccordion = myOrders.map( order => {
     const orderItems = order.orderItems.length ? order.orderItems.map( orderItem => {
       return (
@@ -15,7 +14,7 @@ const UserOrders = (props) => {
       )
     }) : null;
     return {
-      title: order.id,
+      title: order.id, //Not sure I understand why we are making the title the order.id, BUT if this is what we want then I have no objections
       content: (
         <Table compact celled definition>
           <Table.Body>
