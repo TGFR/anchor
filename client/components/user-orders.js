@@ -3,7 +3,6 @@ import { Header, Accordion, Table } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 const UserOrders = (props) => {
-  console.log('in orders component')
   const {myOrders} = props;
   const ordersAccordion = myOrders.map( order => {
     const orderItems = order.orderItems.length ? order.orderItems.map( orderItem => {
