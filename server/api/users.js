@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
+const gatekeepers = require('./gatekeepers');
 module.exports = router
 
 router.get('/', (req, res, next) => {

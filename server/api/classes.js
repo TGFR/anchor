@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {Class} = require('../db/models')
+const gatekeepers = require('./gatekeepers');
 
 module.exports = router
 
