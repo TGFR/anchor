@@ -21,9 +21,11 @@ User.hasMany(Order);
 Class.hasMany(Review);
 Class.belongsToMany(Category, {through: 'classCategory'});
 Class.hasMany(OrderItems);
+OrderItems.belongsTo(Class);
 
 // orders have many orderItems
 Order.hasMany(OrderItems);
+OrderItems.belongsTo(Order);
 
 // categories have many classes
 Category.belongsToMany(Class, {through: 'classCategory'});

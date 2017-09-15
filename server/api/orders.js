@@ -1,6 +1,6 @@
 /* eslint new-cap:0 */
 const router = require('express').Router()
-const { Order } = require('../db/models')
+const { Order, OrderItems } = require('../db/models')
 
 module.exports = router
 
@@ -15,7 +15,11 @@ router.get('/', (req, res, next) => {
 router.get('/users/:id', function (req, res, next) {
   if (!Number(req.params.id)) { res.sendStatus(400) }
   else {
-    Order.findAll({where: {userId: req.params.id}})
+    Order.findAll(
+      {
+        where: {userId: req.params.id},
+        include: [ OrderItems ],
+      })
     .then(order => {
       if (!order) res.sendStatus(404)
       else res.json(order)
