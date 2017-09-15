@@ -51,6 +51,9 @@ class NavBar extends React.Component {
         }
 
           <Menu.Menu position="right">
+
+               {this.props.loggedIn ? <Menu.Item name='orders'> <Link to='/orders'> My Orders </Link> </Menu.Item> : null}
+
             <Menu.Item
               name='login'
             >
