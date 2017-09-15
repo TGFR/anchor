@@ -3,48 +3,37 @@ const {Class} = require('../db/models')
 
 module.exports = router
 
+//returns all classes from the database
 router.get('/', (req, res, next) => {
   Class.findAll({})
     .then(classes => res.json(classes))
     .catch(next)
 })
 
-
-router.get('/:id', function (req, res, next) {
-  Class.findOne({where:{id: req.params.id}})
-    .then(classItem => res.json(classItem))
-    .catch(next);
-})
-
+//creates a class in the database
 router.post('/', function (req, res, next) {
-  console.log('trying to post')
   Class.create(req.body)
-  .then(function(classItem) {
-    console.log('inthe post!');
+  .then(classItem => {
     res.status(201).json(classItem);
   })
   .catch(next);
 })
 
-
+//updates a single class in the database
 router.put('/:id', function (req, res, next) {
-
-  Class.update(
-    req.body,
-    {where: {id: req.params.id}}
-  )
-  .then(function(classItem) {
-    res.json(classItem);
+  Class.findById(req.params.id)
+  .then(lesson => lesson.update(req.body))
+  .then(updatedLesson => {
+    res.json(updatedLesson);
   })
   .catch(next);
 })
 
-
+//deletes a single class from the database
 router.delete('/:id', function (req, res, next) {
   Class.destroy({where: {id: req.params.id}})
-  .then(function() {
-    res.json('success')
+  .then(() => {
+    res.status(202).json('Class successfully deleted!')
   })
   .catch(next)
-
 })
