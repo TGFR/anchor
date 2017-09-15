@@ -27,7 +27,7 @@ for (let i = 1; i < numUsers; i++) {
   const isGuest = Math.random() < 0.25;
   users.push({
     email: faker.internet.email(),
-    password: faker.random.alphaNumeric(10),
+    password: 'password',
     privilege: isGuest ? 'guest' : 'authenticated',
   });
 }
