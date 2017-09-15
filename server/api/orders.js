@@ -34,3 +34,11 @@ router.get('/:id', function (req, res, next) {
     .then(order => res.json(order))
     .catch(next);
 })
+
+//make a new order
+router.post('/', function (req, res, next) {
+  req.body.userId = req.user.id;
+  Order.create(req.body)
+    .then(order => res.json(order))
+    .catch(next);
+})
