@@ -9,6 +9,7 @@ import {
         Home,
         Login,
         Signup,
+        Cart,
         UserHome,
         ClassList,
         OrderList,
@@ -45,6 +46,7 @@ class Routes extends Component {
             <Route exact path='/classes' component={ClassList} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
+            <Route path='/cart' component={Cart} />
             <Route path='/classes/:id' component={SingleClass} />
 
             {

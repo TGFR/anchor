@@ -5,6 +5,7 @@
  */
 export {default as Main} from './main'
 export {default as Home} from './home'
+export {default as Cart} from './cart'
 export {default as UserHome} from './user-home'
 export {default as ClassList} from './class-list'
 export {default as OrderList} from './order-list'
