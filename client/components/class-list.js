@@ -10,9 +10,7 @@ const ClassList = props => {
   const {classes} = props
   return (
     <div>
-      <Container className='search-container' textAlign='center'>
-        <Input fluid size='big' icon='search' placeholder='What are you looking to learn?' />
-      </Container>
+
       <Card.Group>
       {classes.map(lesson => {
         return (
