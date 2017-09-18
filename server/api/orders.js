@@ -75,33 +75,56 @@ router.post('/', function (req, res, next) {
     res.sendStatus(400);
   }
   // CASE 1
-  Order.create({userId})
-    .then(order => {
-      console.log('order:', order);
-      const createOrderItems = Object.keys(cart).map(classId => {
-        return Class.findById(classId)
-        .then(classItem => {
-          // if the user tries to purchase more classItems than are available,
-          // it should return a 400 error. TODO: Make sure this check actually works as expected.
-          if (classItem.quantity - cart[classId] < 0) {
-            res.status(400).send(`insufficient available quantity for ${classItem.title}`);
-          }
-          return OrderItems.create({
-            classId,
-            orderId: order.id,
-            price: classItem.price,
-            quantity: cart[classId],
-          })
-          .then( () => {
-            const quantity = classItem.quantity - cart[classId]
-            classItem.update({quantity})
+  // Check to see if any of the items in the cart exceed the available quantity
+  // for that class. If all these checks pass, we can safely create the order
+  // and all associated orderItems.
+  let isValid = true;
+  const validateOrderItems = Object.keys(cart).map(classId => {
+    const quantity = cart[classId];
+    return Class.findById(classId)
+      .then( classItem => {
+        if (classItem.quantity < quantity) {
+          isValid = false; // User is requesting more than the available quantity
+        }
+      })
+  })
+
+  Promise.all(validateOrderItems)
+  .then( stuff => {
+    console.log('stuff:', stuff);
+    if (!isValid) {
+      res.status(400).send(`insufficient available quantity`);
+    } else {
+      Order.create({userId})
+      .then(order => {
+        console.log('order:', order);
+        const createOrderItems = Object.keys(cart).map(classId => {
+          return Class.findById(classId)
+          .then(classItem => {
+            // if the user tries to purchase more classItems than are available,
+            // it should return a 400 error. TODO: Make sure this check actually works as expected.
+            if (classItem.quantity - cart[classId] < 0) {
+              res.status(400).send(`insufficient available quantity for ${classItem.title}`);
+            }
+            return OrderItems.create({
+              classId,
+              orderId: order.id,
+              price: classItem.price,
+              quantity: cart[classId],
+            })
+            .then( () => {
+              const quantity = classItem.quantity - cart[classId]
+              classItem.update({quantity})
+            })
           })
         })
+        return Promise.all(createOrderItems);
       })
-      return Promise.all(createOrderItems);
-    })
-    .then( newOrderItems => {
-      res.send(newOrderItems)
-    })
-    .catch(next);
+      .then( newOrderItems => {
+        res.send(newOrderItems)
+      })
+      .catch(next);
+    }
+  })
+
 })
