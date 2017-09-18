@@ -7,12 +7,19 @@ import Filter from './filter'
  * COMPONENT
  */
 const ClassList = props => {
-  const {classes} = props
+  let {classes} = props
+  const filter = new RegExp(props.filter, 'i');
+
+  classes = classes.filter(lesson => {
+    return filter.test(lesson.title, 'i');
+  })
+
   return (
     <div>
       <Filter />
       <Card.Group>
-      {classes.map(lesson => {
+      {
+      classes.map(lesson => {
         return (
           <Card key={lesson.id}>
             <Link to={`/classes/${lesson.id}`}>
@@ -32,6 +39,6 @@ const ClassList = props => {
 /**
  * CONTAINER
  */
-const mapState = ({classes}) => ({classes})
+const mapState = ({classes, filter}) => ({classes, filter})
 
 export default connect(mapState, null)(ClassList)
