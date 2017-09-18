@@ -1,25 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Form } from 'semantic-ui-react'
-import {setFilter} from '../store';
 import SearchBar from './search-bar';
 
 class Filter extends React.Component {
 
-  constructor(){
+  constructor() {
     super()
 
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange (event) {
+  handleChange(event) {
     this.props.updateFilter(event.target.value);
   }
 
   render() {
     return (
       <Menu vertical>
-        <SearchBar size='small' onChange={this.handleChange} />
+        <SearchBar size='small' />
         {
           this.props.categories.map((category) => {
             return (
@@ -34,15 +33,12 @@ class Filter extends React.Component {
 
 const mapState = (state) => {
   return {
-    filter: state.filter,
     categories: state.categories
   }
 }
 
 const mapDispatch = (dispatch) => {
-  return {
-    updateFilter: filter => dispatch(setFilter(filter)),
-  }
+  return {}
 }
 
 export default connect(mapState, mapDispatch)(Filter);
