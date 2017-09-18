@@ -1,6 +1,7 @@
+/* eslint new-cap:0 */
 const router = require('express').Router()
 const {Class} = require('../db/models')
-const gatekeepers = require('./gatekeepers');
+const { isAdmin } = require('./gatekeepers');
 
 module.exports = router
 
@@ -12,7 +13,7 @@ router.get('/', (req, res, next) => {
 })
 
 //creates a class in the database
-router.post('/', function (req, res, next) {
+router.post('/', isAdmin, function (req, res, next) {
   Class.create(req.body)
   .then(classItem => {
     res.status(201).json(classItem);
@@ -21,14 +22,13 @@ router.post('/', function (req, res, next) {
 })
 
 router.get('/:id', function (req, res, next) {
-   Class.findOne({where:{id: req.params.id}})
+   Class.findOne({where: {id: req.params.id}})
      .then(classItem => res.json(classItem))
      .catch(next);
 })
- 
 
 //updates a single class in the database
-router.put('/:id', function (req, res, next) {
+router.put('/:id', isAdmin, function (req, res, next) {
   Class.findById(req.params.id)
   .then(lesson => lesson.update(req.body))
   .then(updatedLesson => {
@@ -38,7 +38,7 @@ router.put('/:id', function (req, res, next) {
 })
 
 //deletes a single class from the database
-router.delete('/:id', function (req, res, next) {
+router.delete('/:id', isAdmin, function (req, res, next) {
   Class.destroy({where: {id: req.params.id}})
   .then(() => {
     res.status(202).json('Class successfully deleted!')
