@@ -47,7 +47,7 @@ export const addToCart = (item) => {
 export const removeFromCart = (itemId) => {
   return dispatch => {
     return axios.delete(`/api/cart/${itemId}`)
-      .then( () =>
+      .then(() =>
         dispatch(removeItem(itemId)))
       .catch(err => console.log(err))
   }
@@ -56,7 +56,7 @@ export const removeFromCart = (itemId) => {
 export const updateItem = (item) => {
   return dispatch => {
     return axios.put(`/api/cart/`, item)
-      .then( () =>
+      .then(() =>
         dispatch(updatedItem(item)))
       .catch(err => console.log(err))
   }
@@ -65,7 +65,7 @@ export const updateItem = (item) => {
 export const clearCart = () => {
   return dispatch => {
     return axios.delete('/api/cart')
-      .then( () => dispatch(clearCart()) )
+      .then(() => dispatch(clearCart()))
       .catch(err => console.log(err))
   }
 }
@@ -88,6 +88,11 @@ export default function (cart = defaultCart, action) {
     case REMOVE_CART_ITEM:
       removeIndex = cart.find(cartItem => cartItem.id === action.itemId);
       newCart = newCart.concat(cart.slice(0, removeIndex), cart.slice(removeIndex + 1));
+      return newCart;
+    case UPDATE_CART_ITEM:
+      removeIndex = cart.find(cartItem => cartItem.id === action.itemId);
+      newCart = [...newCart];
+      newCart[removeIndex] = action.item;
       return newCart;
     default:
       return cart;
