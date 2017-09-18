@@ -91,7 +91,7 @@ export default function (cart = defaultCart, action) {
       return newCart;
     case UPDATE_CART_ITEM:
       removeIndex = cart.find(cartItem => cartItem.id === action.itemId);
-      newCart = [...newCart];
+      newCart = [...cart];
       newCart[removeIndex] = action.item;
       return newCart;
     default:
