@@ -17,7 +17,7 @@ export default Cart => {
 
   //If cart is not empty then we will display the following for each item in the cart
   let cartDetail = <Container textAlign='center'>
-    <Header as='h2'textAlign='center'>My Cart</Header>
+    <Header as='h2'textAlign='center' style={{margin: '15px'}}>My Cart</Header>
     <Segment raised className='order-item'>
       <span>Class Title</span>
       <span>Price</span>
