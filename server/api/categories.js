@@ -11,15 +11,12 @@ router.get('/', (req, res, next) => {
 //get a single category's classes
 router.get('/:id', (req, res, next) => {
   const id = Number(req.params.id);
-  Class.findAll({
-    include: [{
-      model: Category,
-      through: '',
-      where: {categoryId: id},
-    }]
-  })
-  .then(classes => res.json(classes))
-  .catch(next);
+  Category.findById(id)
+    .then((category) => {
+      return category.getClasses()
+    })
+    .then(classes => res.json(classes))
+    .catch(next);
 })
 
 module.exports = router;
