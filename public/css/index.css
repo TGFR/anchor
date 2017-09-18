@@ -13,7 +13,7 @@
   justify-content: center;
 }
 
-ui.raised.segment.order-item {
+.order-item {
   display: flex;
   justify-content: space-between;
 }
