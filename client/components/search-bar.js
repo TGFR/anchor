@@ -3,7 +3,7 @@ import { Container, Input } from 'semantic-ui-react'
 
 const SearchBar = (props) => {
 
-  const size = props.size;
+  const size = props.size || 'big';
 
   return (
     <Container textAlign='center' className='search-container'>
