@@ -22,7 +22,7 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
   const newCartItem = req.body;
   const classId = Object.keys(newCartItem)[0];
-  const quantity = newCartItem[classId];
+  const quantity = +newCartItem[classId]; // For some reason, this isn't casting to Number.
   if (req.session.cart && Object.keys(req.session.cart).length) {
     if (req.session.cart[classId]) {
       req.session.cart[classId] += quantity;
@@ -52,18 +52,15 @@ router.put('/', function(req, res, next) {
   const cartItem = req.body;
   const classId = Object.keys(cartItem)[0];
   const quantity = cartItem[classId];
-  // item is not already in the cart
   if (!req.session.cart || !req.session.cart[classId]) {
     res.sendStatus(400);
-  // quantity submitted is 0
   } else if (quantity === 0) {
     delete req.session.cart[req.params.id]
-    res.status(204).json(req.session.cart);
-  // its in the cart
+    res.status(200).json(req.session.cart);
   } else {
     req.session.cart[classId] = quantity;
+    res.status(200).json(req.session.cart);
   }
-
 })
 
 //
