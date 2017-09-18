@@ -53,7 +53,7 @@ export const removeFromCart = (itemId) => {
   }
 }
 
-export const UpdateItem = (item) => {
+export const updateItem = (item) => {
   return dispatch => {
     return axios.put(`/api/cart/`, item)
       .then( () =>
