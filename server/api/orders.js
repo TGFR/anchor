@@ -1,6 +1,6 @@
 /* eslint new-cap:0 */
 const router = require('express').Router()
-const { Order, OrderItems, User } = require('../db/models')
+const { Order, OrderItems, User, Class } = require('../db/models')
 const { isAdmin, isSelfOrAdmin } = require('./gatekeepers');
 
 module.exports = router
@@ -64,19 +64,38 @@ router.post('/', function (req, res, next) {
       -> Create user...
   3. User isn't logged in, but email matches existing user
       -> ...
+  4. Cart is empty
+      -> Don't create an order in the first place. Return 400.
   */
-  // CASE 1
+
   const userId = req.user.id;
   const cart = req.session.cart;
+  // CASE 4 - cart is empty
+  if (!Object.keys(cart).length) {
+    res.sendStatus(400);
+  }
+  // CASE 1
   Order.create({userId})
     .then(order => {
       console.log('order:', order);
-      const createOrderItems = Object.keys(cart).map(orderItem => {
-        return OrderItems.create({
-          price: 13,
-          classId: orderItem,
-          quantity: cart[orderItem],
-          orderId: order.id
+      const createOrderItems = Object.keys(cart).map(classId => {
+        return Class.findById(classId)
+        .then(classItem => {
+          // if the user tries to purchase more classItems than are available,
+          // it should return a 400 error. TODO: Make sure this check actually works as expected.
+          if (classItem.quantity - cart[classId] < 0) {
+            res.status(400).send(`insufficient available quantity for ${classItem.title}`);
+          }
+          return OrderItems.create({
+            classId,
+            orderId: order.id,
+            price: classItem.price,
+            quantity: cart[classId],
+          })
+          .then( () => {
+            const quantity = classItem.quantity - cart[classId]
+            classItem.update({quantity})
+          })
         })
       })
       return Promise.all(createOrderItems);
