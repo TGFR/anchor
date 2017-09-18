@@ -11,7 +11,7 @@ const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
 /**
  * INITIAL STATE
  */
-const defaultCart = []
+const defaultCart = [];
 
 /**
  * ACTION CREATORS
@@ -39,6 +39,8 @@ export const fetchCart = () => {
  */
 export default function (cart = defaultCart, action) {
   let newCart = [];
+  let removeIndex;
+
   switch (action.type) {
     case GET_CART:
       return action.cart;
@@ -47,10 +49,10 @@ export default function (cart = defaultCart, action) {
     case ADD_CART_ITEM:
       return [...cart, action.item];
     case REMOVE_CART_ITEM:
-      let removeIndex = cart.find( (cartItem) => cartItem.id === action.itemId )
-        newCart = newCart.concat(cart.slice(0,removeIndex), cart.slice(removeIndex+1));
-        return newCart;
+      removeIndex = cart.find(cartItem => cartItem.id === action.itemId);
+      newCart = newCart.concat(cart.slice(0, removeIndex), cart.slice(removeIndex + 1));
+      return newCart;
     default:
-      return cart
+      return cart;
   }
 }
