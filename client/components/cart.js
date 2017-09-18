@@ -5,6 +5,16 @@ import { Button, Container, Header, Input, Icon, Label, Message, Segment } from 
 
 
 export default Cart => {
+  let guestCheckout = <Input
+    action={{ color: 'teal', labelPosition: 'left', icon: 'cart', content: 'Checkout' }}
+    actionPosition='right'
+    placeholder='Please enter your email'
+    defaultValue=''
+    type='text'
+  />
+
+  let userCheckout =   <Button color='teal'><Icon name='cart'/>Checkout</Button>
+
   //If cart is not empty then we will display the following for each item in the cart
   let cartDetail = <Container textAlign='center'>
     <Header as='h2'textAlign='center'>My Cart</Header>
@@ -20,9 +30,9 @@ export default Cart => {
       <span>$99.99</span>
     </Segment>
 
-    <Button color='teal'>
-      <Icon name='cart'/> Checkout
-    </Button>
+    {/* {this.state.user.keys.length ? userCheckout : guestCheckout} */}
+    {guestCheckout}
+
   </Container>
 
   //If cart is empty the we will display the following message
@@ -34,7 +44,14 @@ export default Cart => {
   </Container>
 
   return (
-    emptyCart
+    cartDetail
   )
 }
 
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+  }
+}
+
+// export default connect(mapStateToProps, null)(Cart)
