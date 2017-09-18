@@ -24,6 +24,7 @@ import {
         fetchMyOrders,
         clearMyOrders,
         clearOrders,
+        fetchCategories
       } from './store'
 
 /**
@@ -94,6 +95,7 @@ const mapDispatch = (dispatch) => {
       dispatch(fetchAllClasses())
       dispatch(fetchOrders())
       dispatch(fetchAllUsers())
+      dispatch(fetchCategories())
     }
   }
 }
