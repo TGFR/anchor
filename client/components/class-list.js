@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Card, Container, Icon, Image, Input } from 'semantic-ui-react'
-import axios from 'axios'
+import Filter from './filter'
 /**
  * COMPONENT
  */
@@ -10,7 +10,7 @@ const ClassList = props => {
   const {classes} = props
   return (
     <div>
-
+      <Filter />
       <Card.Group>
       {classes.map(lesson => {
         return (
