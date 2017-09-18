@@ -65,8 +65,16 @@ export const updateItem = (item) => {
 export const clearCart = () => {
   return dispatch => {
     return axios.delete('/api/cart')
-      .then( () => dispatch(clearCart()) )
+      .then( () => dispatch(clearedCart()) )
       .catch(err => console.log(err))
+  }
+}
+
+export const checkOut = (order) => {
+  return dispatch => {
+    return axios.post('api/orders', order)
+    .then( () => dispatch(clearCart()))
+    .catch(err => console.log(err))
   }
 }
 
