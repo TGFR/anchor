@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button, Card, Icon, Image } from 'semantic-ui-react'
+import { Button, Card, Container, Icon, Image, Input } from 'semantic-ui-react'
 import axios from 'axios'
 /**
  * COMPONENT
@@ -10,6 +10,9 @@ const ClassList = props => {
   const {classes} = props
   return (
     <div>
+      <Container className='search-container' textAlign='center'>
+        <Input fluid size='big' icon='search' placeholder='What are you looking to learn?' />
+      </Container>
       <Card.Group>
       {classes.map(lesson => {
         return (

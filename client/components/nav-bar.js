@@ -12,7 +12,7 @@ class NavBar extends React.Component {
     this.state = {
       loggedIn: false,
       admin: false,
-      activeItem: 'Login',
+      activeItem: '',
     };
   }
 
@@ -25,24 +25,25 @@ class NavBar extends React.Component {
     return (
       <Menu>
         <Menu.Item
+          as={Link}
+          to='/'
           name="logo"
+          onClick={this.handleItemClick}
         >
-          <Link to='/'>
-            <Icon name="anchor" size="huge" />
-          </Link>
+          <Icon name="anchor" size="huge" />
         </Menu.Item>
 
         <Menu.Item
+          as={Link}
+          to='/classes'
           name='browseAll'
+          onClick={this.handleItemClick}          
         >
-          <Link to='/classes'>
-            Browse All
-          </Link>
+          Browse All
         </Menu.Item>
 
         {this.state.admin && <Menu.Item
           name='admin'
-          onClick={this.handleItemClick}
         >
           <Button color="purple">
             Admin Page
@@ -79,7 +80,7 @@ class NavBar extends React.Component {
               active={activeItem === 'cart'}
               onClick={this.handleItemClick}
             >
-              My Cart
+            <Icon name='cart' size='big' />
           </Menu.Item>
           </Menu.Menu>
 
