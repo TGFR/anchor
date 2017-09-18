@@ -12,3 +12,8 @@
 .ui.cards {
   justify-content: center;
 }
+
+ui.raised.segment.order-item {
+  display: flex;
+  justify-content: space-between;
+}
