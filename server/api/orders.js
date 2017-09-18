@@ -1,19 +1,30 @@
 /* eslint new-cap:0 */
 const router = require('express').Router()
-const { Order, OrderItems } = require('../db/models')
-const gatekeepers = require('./gatekeepers');
+const { Order, OrderItems, User } = require('../db/models')
+const { isAdmin, isSelfOrAdmin } = require('./gatekeepers');
 
 module.exports = router
 
+router.param('id', function (req, res, next, id) {
+  User.findById(id)
+  .then( user => {
+    if (!user) res.sendStatus(404)
+    req.userId = user;
+    next();
+    return null;
+  })
+  .catch(next);
+});
+
 //find all orders
-router.get('/', (req, res, next) => {
+router.get('/', isAdmin, (req, res, next) => {
   Order.findAll({})
     .then(orders => res.json(orders))
     .catch(next)
 })
 
 //find a single user's orders
-router.get('/users/:id', function (req, res, next) {
+router.get('/users/:id', isSelfOrAdmin, function (req, res, next) {
   if (!Number(req.params.id)) { res.sendStatus(400) }
   else {
     Order.findAll(
@@ -30,7 +41,8 @@ router.get('/users/:id', function (req, res, next) {
 })
 
 //find a single order by id
-router.get('/:id', function (req, res, next) {
+// TODO Make sure the gatekeeper here works as expected.
+router.get('/:id', isSelfOrAdmin, function (req, res, next) {
   const id = Number(req.params.id);
   Order.findById(id)
     .then(order => res.json(order))
@@ -38,6 +50,9 @@ router.get('/:id', function (req, res, next) {
 })
 
 //make a new order
+// TODO Make sure the user id associated with the new order
+// matches that of the requesting user. Otherwise, some hacker
+// with Postman can just
 router.post('/', function (req, res, next) {
   req.body.userId = req.user.id;
   Order.create(req.body)
