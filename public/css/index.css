@@ -1,0 +1,19 @@
+
+.ui.menu {
+  margin: 0;
+}
+
+.ui.center.aligned.container.search-container {
+  width: 595px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.ui.cards {
+  justify-content: center;
+}
+
+ui.raised.segment.order-item {
+  display: flex;
+  justify-content: space-between;
+}
