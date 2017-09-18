@@ -7,6 +7,8 @@ import classes from './classes'
 import orders from './orders'
 import myOrders from './myOrders'
 import cart from './cart'
+import filter from './filter'
+import categories from './categories'
 
 const reducer = combineReducers({
   user,
@@ -15,6 +17,8 @@ const reducer = combineReducers({
   orders,
   myOrders,
   cart,
+  filter,
+  categories
 })
 
 const middleware = applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -27,3 +31,5 @@ export * from './classes'
 export * from './orders'
 export * from './myOrders'
 export * from './cart'
+export * from './categories'
+export * from './filter'

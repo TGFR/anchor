@@ -2,19 +2,24 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Card, Container, Icon, Image, Input } from 'semantic-ui-react'
-import axios from 'axios'
+import Filter from './filter'
 /**
  * COMPONENT
  */
 const ClassList = props => {
-  const {classes} = props
+  let {classes} = props
+  const filter = new RegExp(props.filter, 'i');
+
+  classes = classes.filter(lesson => {
+    return filter.test(lesson.title, 'i');
+  })
+
   return (
     <div>
-      <Container className='search-container' textAlign='center'>
-        <Input fluid size='big' icon='search' placeholder='What are you looking to learn?' />
-      </Container>
+      <Filter />
       <Card.Group>
-      {classes.map(lesson => {
+      {
+      classes.map(lesson => {
         return (
           <Card key={lesson.id}>
             <Link to={`/classes/${lesson.id}`}>
@@ -34,6 +39,6 @@ const ClassList = props => {
 /**
  * CONTAINER
  */
-const mapState = ({classes}) => ({classes})
+const mapState = ({classes, filter}) => ({classes, filter})
 
 export default connect(mapState, null)(ClassList)
