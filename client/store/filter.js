@@ -18,11 +18,11 @@ export const setFilter = (filter) => {return {type: SET_FILTER, filter} }
 /**
  * REDUCER
  */
-export default function (orders = defaultFilter, action) {
+export default function (filter = defaultFilter, action) {
   switch (action.type) {
     case SET_FILTER:
       return action.filter
     default:
-      return orders
+      return filter
   }
 }
