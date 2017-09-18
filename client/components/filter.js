@@ -19,7 +19,7 @@ class Filter extends React.Component {
   render() {
     return (
       <Menu vertical>
-        <SearchBar size='small' onChange={this.handleChange} />
+        <SearchBar size='small' />
         {
           this.props.categories.map((category) => {
             return (
