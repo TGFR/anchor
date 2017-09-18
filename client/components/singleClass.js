@@ -49,7 +49,7 @@ class SingleClass extends Component {
     )
   }
 
-  handleCheckbox (event) {
+  handleCheckbox () {
     this.setState({acceptedTerms: !this.state.acceptedTerms})
   }
 
@@ -79,7 +79,7 @@ const mapDispatch = (dispatch) => {
   return {
     addToCart: (lesson, quantity) => {
       const lessonToSend = {};
-      lessonToSend[lesson.classId] = quantity;
+      lessonToSend[lesson.id] = quantity;
       dispatch(addToCart(lessonToSend));
     }
   }

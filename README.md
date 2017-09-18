@@ -8,7 +8,7 @@ Dive deep. Anchor.
 
 ## Usage
 
-This usage guide assumes you have node installed and are familiar with the command line.
+This usage guide assumes you have node v8.4+ installed and are familiar with the command line.
 
 To build your own version of Anchor, use the following steps:
 
