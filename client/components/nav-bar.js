@@ -73,6 +73,8 @@ class NavBar extends React.Component {
 
 
             <Menu.Item
+              as={Link}
+              to='/cart'
               name='cart'
               active={activeItem === 'cart'}
               onClick={this.handleItemClick}
