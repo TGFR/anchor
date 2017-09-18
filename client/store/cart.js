@@ -7,6 +7,7 @@ const GET_CART = 'GET_CART';
 const CLEAR_CART = 'CLEAR_CART';
 const ADD_CART_ITEM = 'ADD_CART_ITEM';
 const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
+const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
 
 /**
  * INITIAL STATE
@@ -19,6 +20,7 @@ const defaultCart = [];
 export const getCart = cart => ({ type: GET_CART, cart });
 export const clearedCart = () => ({ type: CLEAR_CART });
 export const addItem = item => ({ type: ADD_CART_ITEM, item });
+export const updatedItem = item => ({ type: UPDATE_CART_ITEM, item });
 export const removeItem = itemId => ({ type: REMOVE_CART_ITEM, itemId });
 
 /**
@@ -47,6 +49,15 @@ export const removeFromCart = (itemId) => {
     return axios.delete(`/api/cart/${itemId}`)
       .then( () =>
         dispatch(removeItem(itemId)))
+      .catch(err => console.log(err))
+  }
+}
+
+export const UpdateItem = (item) => {
+  return dispatch => {
+    return axios.put(`/api/cart/`, item)
+      .then( () =>
+        dispatch(updatedItem(item)))
       .catch(err => console.log(err))
   }
 }
