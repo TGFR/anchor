@@ -12,7 +12,7 @@ const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
 /**
  * INITIAL STATE
  */
-const defaultCart = [];
+const defaultCart = {};
 
 /**
  * ACTION CREATORS
@@ -47,7 +47,7 @@ export const addToCart = (item) => {
 export const removeFromCart = (itemId) => {
   return dispatch => {
     return axios.delete(`/api/cart/${itemId}`)
-      .then( () =>
+      .then(() =>
         dispatch(removeItem(itemId)))
       .catch(err => console.log(err))
   }
@@ -56,7 +56,7 @@ export const removeFromCart = (itemId) => {
 export const updateItem = (item) => {
   return dispatch => {
     return axios.put(`/api/cart/`, item)
-      .then( () =>
+      .then(() =>
         dispatch(updatedItem(item)))
       .catch(err => console.log(err))
   }
@@ -65,7 +65,7 @@ export const updateItem = (item) => {
 export const clearCart = () => {
   return dispatch => {
     return axios.delete('/api/cart')
-      .then( () => dispatch(clearCart()) )
+      .then(() => dispatch(clearCart()))
       .catch(err => console.log(err))
   }
 }
@@ -75,8 +75,8 @@ export const clearCart = () => {
  * REDUCER
  */
 export default function (cart = defaultCart, action) {
-  let newCart = [];
-  let removeIndex;
+  let newCart = {};
+  let classId;
 
   switch (action.type) {
     case GET_CART:
@@ -84,10 +84,22 @@ export default function (cart = defaultCart, action) {
     case CLEAR_CART:
       return defaultCart;
     case ADD_CART_ITEM:
-      return [...cart, action.item];
+      //find the id of the class
+      classId = Object.keys(action.item)[0];
+      if (classId in cart) {
+        newCart = { ...cart };
+        newCart[classId] += action[classId];
+        return newCart;
+      }
+      //if the item isn't in the cart yet, just copy it in
+      return { ...cart, ...action.item };
     case REMOVE_CART_ITEM:
-      removeIndex = cart.find(cartItem => cartItem.id === action.itemId);
-      newCart = newCart.concat(cart.slice(0, removeIndex), cart.slice(removeIndex + 1));
+      classId = action.itemId;
+      newCart = { ...cart };
+      delete (cart[classId]);
+      return newCart;
+    case UPDATE_CART_ITEM:
+      newCart = {...cart, ...action.item}
       return newCart;
     default:
       return cart;
