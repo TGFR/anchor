@@ -1,4 +1,4 @@
-/**/
+/* eslint new-cap:0 */
 const router = require('express').Router()
 const { User } = require('../db/models')
 const { isAdmin, isSelfOrAdmin } = require('./gatekeepers');
@@ -36,10 +36,14 @@ router.get('/:id', isSelfOrAdmin, function (req, res, next) {
     .catch(next);
 })
 
+// Creates a new user. Prohibits people
+// from creating a custom privilege in the
+// request body
 router.post('/', function (req, res, next) {
-  User.create(req.body)
+  const newUser = req.body;
+  delete newUser.privilege;
+  User.create(newUser)
   .then(function(user) {
-    console.log('inthe post!');
     res.status(201).json(user);
   })
   .catch(next);
