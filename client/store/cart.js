@@ -12,7 +12,7 @@ const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
 /**
  * INITIAL STATE
  */
-const defaultCart = [];
+const defaultCart = {};
 
 /**
  * ACTION CREATORS
@@ -75,7 +75,7 @@ export const clearCart = () => {
  * REDUCER
  */
 export default function (cart = defaultCart, action) {
-  let newCart = [];
+  let newCart = {};
   let removeIndex;
 
   switch (action.type) {
@@ -84,15 +84,22 @@ export default function (cart = defaultCart, action) {
     case CLEAR_CART:
       return defaultCart;
     case ADD_CART_ITEM:
-      return [...cart, action.item];
+      //find the id of the class
+      let classId = Object.keys(action.item)[0];
+      if (classId in cart) {
+        newCart = { ...cart };
+        newCart[classId] += action[classId];
+        return newCart;
+      }
+      //if the item isn't in the cart yet, just copy it in
+      return { ...cart, ...action.item };
     case REMOVE_CART_ITEM:
-      removeIndex = cart.find(cartItem => cartItem.id === action.itemId);
-      newCart = newCart.concat(cart.slice(0, removeIndex), cart.slice(removeIndex + 1));
+      let classId = action.itemId;
+      newCart = { ...cart };
+      delete (cart[classId]);
       return newCart;
     case UPDATE_CART_ITEM:
-      removeIndex = cart.find(cartItem => cartItem.id === action.itemId);
-      newCart = [...cart];
-      newCart[removeIndex] = action.item;
+      newCart = {...cart, ...action.item}
       return newCart;
     default:
       return cart;
