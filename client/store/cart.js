@@ -44,7 +44,7 @@ export const addToCart = (item) => {
 
 export const removeFromCart = (itemId) => {
   return dispatch => {
-    return axios.delete('/api/cart', itemId)
+    return axios.delete(`/api/cart/${itemId}`)
       .then( () =>
         dispatch(removeItem(itemId)))
       .catch(err => console.log(err))
@@ -53,7 +53,7 @@ export const removeFromCart = (itemId) => {
 
 export const clearCart = () => {
   return dispatch => {
-    return axios.delete('/api/cart/clear')
+    return axios.delete('/api/cart')
       .then( () => dispatch(clearCart()) )
       .catch(err => console.log(err))
   }
