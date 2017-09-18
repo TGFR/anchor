@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Form } from 'semantic-ui-react'
-import { setFilter } from '../store';
 import SearchBar from './search-bar';
 
 class Filter extends React.Component {
