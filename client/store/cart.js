@@ -17,7 +17,7 @@ const defaultCart = [];
  * ACTION CREATORS
  */
 export const getCart = cart => ({ type: GET_CART, cart });
-export const clearCart = () => ({ type: CLEAR_CART });
+export const clearedCart = () => ({ type: CLEAR_CART });
 export const addItem = item => ({ type: ADD_CART_ITEM, item });
 export const removeItem = itemId => ({ type: REMOVE_CART_ITEM, itemId });
 
@@ -29,6 +29,32 @@ export const fetchCart = () => {
     return axios.get('/api/cart')
       .then(res =>
         dispatch(getCart(res.data || defaultCart)))
+      .catch(err => console.log(err))
+  }
+}
+
+export const addToCart = (item) => {
+  return dispatch => {
+    return axios.post('/api/cart', item)
+      .then(res =>
+        dispatch(addItem(res.data || defaultCart)))
+      .catch(err => console.log(err))
+  }
+}
+
+export const removeFromCart = (itemId) => {
+  return dispatch => {
+    return axios.delete('/api/cart', itemId)
+      .then( () =>
+        dispatch(removeItem(itemId)))
+      .catch(err => console.log(err))
+  }
+}
+
+export const clearCart = () => {
+  return dispatch => {
+    return axios.delete('/api/cart/clear')
+      .then( () => dispatch(clearCart()) )
       .catch(err => console.log(err))
   }
 }
