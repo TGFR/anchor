@@ -44,7 +44,6 @@ router.post('/', function (req, res, next) {
   delete newUser.privilege;
   User.create(newUser)
   .then(function(user) {
-    console.log('inthe post!');
     res.status(201).json(user);
   })
   .catch(next);
