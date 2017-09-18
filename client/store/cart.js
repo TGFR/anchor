@@ -76,7 +76,7 @@ export const clearCart = () => {
  */
 export default function (cart = defaultCart, action) {
   let newCart = {};
-  let removeIndex;
+  let classId;
 
   switch (action.type) {
     case GET_CART:
@@ -85,7 +85,7 @@ export default function (cart = defaultCart, action) {
       return defaultCart;
     case ADD_CART_ITEM:
       //find the id of the class
-      let classId = Object.keys(action.item)[0];
+      classId = Object.keys(action.item)[0];
       if (classId in cart) {
         newCart = { ...cart };
         newCart[classId] += action[classId];
@@ -94,7 +94,7 @@ export default function (cart = defaultCart, action) {
       //if the item isn't in the cart yet, just copy it in
       return { ...cart, ...action.item };
     case REMOVE_CART_ITEM:
-      let classId = action.itemId;
+      classId = action.itemId;
       newCart = { ...cart };
       delete (cart[classId]);
       return newCart;
