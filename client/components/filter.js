@@ -1,36 +1,44 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Form } from 'semantic-ui-react'
-import setFilter from '../store/filter.js';
 import SearchBar from './search-bar';
 
-const Filter = (props) => {
+class Filter extends React.Component {
 
-  return (
-    <Menu vertical>
-      <SearchBar size='small' onChange={(event) => props.updateFilter(event.target.value)} />
-      {
-        props.categories.map( (category) => {
-          return (
-            <Form.Checkbox key={category.id} label={category.title} value={category.id} />
-          )
-        })
-      }
-    </Menu>
-  );
+  constructor() {
+    super()
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.props.updateFilter(event.target.value);
+  }
+
+  render() {
+    return (
+      <Menu vertical>
+        <SearchBar size='small' />
+        {
+          this.props.categories.map((category) => {
+            return (
+              <Form.Checkbox key={category.id} label={category.title} value={category.id} />
+            )
+          })
+        }
+      </Menu>
+    );
+  }
 }
 
 const mapState = (state) => {
   return {
-    filter: state.filter,
     categories: state.categories
   }
 }
 
 const mapDispatch = (dispatch) => {
-  return {
-    updateFilter: (filter) => dispatch(setFilter(filter))
-  }
+  return {}
 }
 
 export default connect(mapState, mapDispatch)(Filter);

@@ -1,15 +1,45 @@
 import React from 'react'
 import { Container, Input } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { setFilter } from '../store'
 
-const SearchBar = (props) => {
+class SearchBar extends React.Component {
 
-  const size = props.size || 'big';
+  constructor (){
+    super();
+    this.handleChange = this.handleChange.bind(this)
+  }
 
-  return (
-    <Container textAlign='center' className='search-container'>
-    <Input fluid size={size} icon='search' placeholder='What are you looking to learn?' />
-  </Container>
-  )
+  componentWillUnmount() {
+    this.props.updateFilter('');
+  }
+
+  render() {
+    const size = this.props.size || 'big';
+
+    return (
+      <Container textAlign='center' className='search-container'>
+        <Input fluid size={size} icon='search' placeholder='What are you looking to learn?' onChange={this.handleChange} />
+      </Container>
+    )
+  }
+
+  handleChange(event) {
+    this.props.updateFilter(event.target.value);
+  }
 }
 
-export default SearchBar;
+const mapState = (state) => {
+  return {
+    filter: state.filter,
+    categories: state.categories
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+    updateFilter: filter => dispatch(setFilter(filter)),
+  }
+}
+
+export default connect(mapState, mapDispatch)(SearchBar);
