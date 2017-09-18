@@ -52,10 +52,37 @@ router.get('/:id', isSelfOrAdmin, function (req, res, next) {
 //make a new order
 // TODO Make sure the user id associated with the new order
 // matches that of the requesting user. Otherwise, some hacker
-// with Postman can just
+// with Postman can just make an order associated with someone else
 router.post('/', function (req, res, next) {
-  req.body.userId = req.user.id;
-  Order.create(req.body)
-    .then(order => res.json(order))
+  /* CASES
+  1. User is logged in
+      -> create new order with that userId
+      -> create an orderitem for each key in the cart
+      -> set the price equal to the price of that class
+      -> associate each of these orderitems with that new order
+  2. User doesn't exist (provides email address)
+      -> Create user...
+  3. User isn't logged in, but email matches existing user
+      -> ...
+  */
+  // CASE 1
+  const userId = req.user.id;
+  const cart = req.session.cart;
+  Order.create({userId})
+    .then(order => {
+      console.log('order:', order);
+      const createOrderItems = Object.keys(cart).map(orderItem => {
+        return OrderItems.create({
+          price: 13,
+          classId: orderItem,
+          quantity: cart[orderItem],
+          orderId: order.id
+        })
+      })
+      return Promise.all(createOrderItems);
+    })
+    .then( newOrderItems => {
+      res.send(newOrderItems)
+    })
     .catch(next);
 })
