@@ -1,4 +1,4 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux'
+import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import user from './user'
@@ -21,8 +21,18 @@ const reducer = combineReducers({
   categories
 })
 
-const middleware = applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
-const store = createStore(reducer, middleware)
+
+//SET w/ REDUX DevTools
+const middleware = [thunkMiddleware, createLogger({collapsed: true})]
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, composeEnhancers(
+    applyMiddleware(...middleware)
+  ));
+
+  //OLD SETUP w/o REDUX DevTools
+// const middleware = applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
+// const store = createStore(reducer, middleware)
 
 export default store
 export * from './user'
