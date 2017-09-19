@@ -15,7 +15,7 @@ const ClassList = props => {
   })
 
   return (
-    <div>
+    <div className='browse-all'>
       <Filter />
       <Card.Group>
       {
