@@ -104,11 +104,10 @@ export default function (cart = defaultCart, action) {
     case REMOVE_CART_ITEM:
       classId = action.itemId;
       newCart = { ...cart };
-      delete (cart[classId]);
+      delete (newCart[classId]);
       return newCart;
     case UPDATE_CART_ITEM:
-      newCart = {...cart, ...action.item}
-      return newCart;
+      return {...cart, ...action.item}
     default:
       return cart;
   }
