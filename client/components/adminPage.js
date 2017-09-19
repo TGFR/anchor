@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button, Card, Container, Icon, Image, Input } from 'semantic-ui-react'
+import { Button, Card, Container, Icon, Image, Input, Tab } from 'semantic-ui-react'
 import {fetchOrders, fetchAllUsers} from '../store'
 import OrderList from './order-list'
+import UserList from './user-list'
 
 class AdminPage extends React.Component {
 
@@ -15,7 +16,11 @@ class AdminPage extends React.Component {
     this.props.loadAdminData()
   }
   render() {
-    return <OrderList />
+    const panes = [
+      { menuItem: 'Orders', render: () => <Tab.Pane> <OrderList /> </Tab.Pane>},
+      { menuItem: 'Users', render: () => <Tab.Pane> <UserList /> </Tab.Pane>},
+    ]
+    return <Tab panes={panes} />
   }
 
 }

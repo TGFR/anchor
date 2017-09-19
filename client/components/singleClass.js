@@ -39,7 +39,7 @@ class SingleClass extends Component {
               <Form inverted onSubmit={this.handleSubmit}>
                 <Form.Field label='Quantity' control='input' onChange={this.handleQuantity} type='number' min={1} value={this.state.quantity} />
                 <Form.Checkbox onChange={this.handleCheckbox} required label='I agree to the Terms and Conditions' checked={this.state.acceptedTerms}/>
-                <Button type='submit' disabled={!this.state.acceptedTerms}>Submit</Button>
+                <Button type='submit' disabled={!this.state.acceptedTerms}>Add to Cart</Button>
               </Form>
             </Segment>
 
