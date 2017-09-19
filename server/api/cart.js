@@ -37,7 +37,7 @@ router.post('/', (req, res, next) => {
 // Deletes an item from the cart
 router.delete('/:id', function(req, res, next) {
   delete req.session.cart[req.params.id]
-  res.status(204).json(req.session.cart);
+  res.status(200).json(req.session.cart);
 })
 
 // Deletes the whole cart

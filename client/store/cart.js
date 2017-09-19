@@ -21,7 +21,7 @@ export const getCart = cart => ({ type: GET_CART, cart });
 export const clearedCart = () => ({ type: CLEAR_CART });
 export const addItem = item => ({ type: ADD_CART_ITEM, item });
 export const updateCart = cart => ({ type: UPDATE_CART, cart });
-export const removeItem = itemId => ({ type: REMOVE_CART_ITEM, itemId });
+export const removeItem = cart => ({ type: REMOVE_CART_ITEM, cart });
 
 /**
  * THUNK CREATORS
@@ -47,8 +47,11 @@ export const addToCart = (item) => {
 export const removeFromCart = (itemId) => {
   return dispatch => {
     return axios.delete(`/api/cart/${itemId}`)
-      .then(() =>
-        dispatch(removeItem(itemId)))
+      .then(res => res.data)
+      .then(cart => {
+        console.log('cart =', cart)
+        dispatch(removeItem(cart || defaultCart))
+      })
       .catch(err => console.log(err))
   }
 }
@@ -86,8 +89,6 @@ export const checkOut = (order) => {
  * REDUCER
  */
 export default function (cart = defaultCart, action) {
-  let newCart = {};
-  let classId;
 
   switch (action.type) {
     case GET_CART:
@@ -97,11 +98,7 @@ export default function (cart = defaultCart, action) {
     case ADD_CART_ITEM:
       return action.item;
     case REMOVE_CART_ITEM:
-      // classId = action.itemId;
-      // newCart = { ...cart };
-      // delete (newCart[classId]);
-      // return newCart;
-      return action.item;
+      return action.cart;
     case UPDATE_CART:
       return action.cart;
     default:
