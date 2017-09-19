@@ -27,7 +27,7 @@ export default function (filterCategories = defaultFilterCategories, action) {
     case ADD_FILTER_CATEGORY:
       return [...filterCategories, action.category];
     case REMOVE_FILTER_CATEGORY:
-      removeIndex = filterCategories.findIndex(cat => cat.id === action.category);
+      removeIndex = filterCategories.findIndex(cat => cat.id === action.category.id);
       return [].concat(filterCategories.slice(0, removeIndex), filterCategories.slice(removeIndex + 1));
     case CLEAR_FILTER_CATEGORIES:
       return defaultFilterCategories;
