@@ -2,8 +2,8 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Menu, Button, Icon, Modal } from 'semantic-ui-react'
-import {Login, Signup} from './auth-form';
-import {logout} from '../store'
+import { Login, Signup } from './auth-form';
+import { logout } from '../store'
 
 class NavBar extends React.Component {
 
@@ -48,40 +48,41 @@ class NavBar extends React.Component {
             Admin Page
         </Button>
         </Menu.Item>
-        : null}
+          : null}
 
-          <Menu.Menu position="right">
+        <Menu.Menu position="right">
 
-               {this.props.loggedIn ? <Menu.Item name='orders'> <Link to='/orders'> My Orders </Link> </Menu.Item> : null}
+          {this.props.loggedIn ? <Menu.Item name='orders'> <Link to='/orders'> My Orders </Link> </Menu.Item> : null}
 
-            <Menu.Item
-              name='login'
-            >
+          <Menu.Item
+            name='login'
+          >
             {!this.props.loggedIn ?
-                <Modal trigger={
+              <Modal trigger={
                 <Button primary>
                   Log in/Sign up
-                </Button> }>
-                    <Menu tabular>
-                        <Menu.Item name='Login' active={activeItem === 'Login'} onClick={this.handleItemClick} />
-                        <Menu.Item name='SignUp' active={activeItem === 'SignUp'} onClick={this.handleItemClick} />
-                        {activeItem === 'Login' ? <Login /> : <Signup />}
-                    </Menu>
+                </Button>}>
+                <Menu tabular>
+                  <Menu.Item name='Login' active={activeItem === 'Login'} onClick={this.handleItemClick} />
+                  <Menu.Item name='SignUp' active={activeItem === 'SignUp'} onClick={this.handleItemClick} />
+                  {activeItem === 'Login' ? <Login /> : <Signup />}
+                </Menu>
 
-                </Modal> : <Button onClick={this.props.logOut} primary> Logout </Button>}
+              </Modal> : <Button onClick={this.props.logOut} primary> Logout </Button>}
           </Menu.Item>
 
 
-            <Menu.Item
-              as={Link}
-              to='/cart'
-              name='cart'
-              active={activeItem === 'cart'}
-              onClick={this.handleItemClick}
-            >
+          <Menu.Item
+            as={Link}
+            to='/cart'
+            name='cart'
+            active={activeItem === 'cart'}
+            onClick={this.handleItemClick}
+          >
             <Icon name='cart' size='big' />
+            {Object.keys(this.props.cart).length}
           </Menu.Item>
-          </Menu.Menu>
+        </Menu.Menu>
 
       </Menu>
     )
@@ -89,7 +90,10 @@ class NavBar extends React.Component {
 
 }
 
-const mapProps = ({ user }) => ({ loggedIn: Object.keys(user).length > 0, isAdmin: user.privilege === 'admin'
+const mapProps = ({ cart, user }) => ({
+  loggedIn: Object.keys(user).length > 0,
+  isAdmin: user.privilege === 'admin',
+  cart
 });
 // const mapState = ({user}) => ({user})
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Form } from 'semantic-ui-react'
 import SearchBar from './search-bar';
-import {addFilterCategory, removeFilterCategory} from '../store';
+import {addFilterCategory, removeFilterCategory, clearFilterCategories} from '../store';
 
 class Filter extends React.Component {
 
@@ -23,6 +23,10 @@ class Filter extends React.Component {
     else {
       this.props.removeFilterCategory(currentCategory);
     }
+  }
+
+  componentWillUnmount(){
+    this.props.clearFilters();
   }
 
   componentWillReceiveProps(newProps){
@@ -59,8 +63,8 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     addFilterCategory: (category) => dispatch(addFilterCategory(category)),
-    removeFilterCategory: (category) => dispatch(removeFilterCategory(category))
-
+    removeFilterCategory: (category) => dispatch(removeFilterCategory(category)),
+    clearFilters: () => dispatch(clearFilterCategories())
   }
 }
 
