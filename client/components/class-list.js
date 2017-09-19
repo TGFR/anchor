@@ -18,7 +18,7 @@ const ClassList = props => {
     classes = classes.filter(lesson => {
       for (let i = 0; i < props.filterCategories.length; i++) {
         for (let j = 0; j < lesson.categories.length; j++){
-          if (lesson.categories.id === props.filterCategories[i].id) return true;
+          if (lesson.categories[j].id === props.filterCategories[i].id) return true;
         }
 
       }
