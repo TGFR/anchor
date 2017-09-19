@@ -1,5 +1,7 @@
 import axios from 'axios'
 import history from '../history'
+import { serverError, applicationError } from './errors'
+
 
 /**
  * ACTION TYPES
@@ -15,8 +17,8 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
-const removeUser = () => ({type: REMOVE_USER})
+const getUser = user => ({ type: GET_USER, user })
+const removeUser = () => ({ type: REMOVE_USER })
 
 /**
  * THUNK CREATORS
@@ -29,14 +31,18 @@ export const me = () =>
       .catch(err => console.log(err))
 
 export const auth = (email, password, method) =>
-  dispatch =>
+  dispatch => {
+    if (!email || !password || !method) return dispatch(applicationError(Error('invalid credentials dispatched')));
     axios.post(`/auth/${method}`, { email, password })
       .then(res => {
         dispatch(getUser(res.data))
         history.push('/home')
       })
-      .catch(error =>
-        dispatch(getUser({error})))
+      .catch(error => {
+        console.log(error)
+        dispatch(serverError(error))
+      })
+  }
 
 export const logout = () =>
   dispatch =>
@@ -45,7 +51,10 @@ export const logout = () =>
         dispatch(removeUser())
         history.push('/login')
       })
-      .catch(err => console.log(err))
+      .catch(error => {
+        console.log(error)
+        dispatch(serverError(error))
+      })
 
 /**
  * REDUCER

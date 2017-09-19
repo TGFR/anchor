@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { serverError } from './errors'
+
 
 /**
  * ACTION TYPES
@@ -13,7 +15,7 @@ const defaultClasses = []
 /**
  * ACTION CREATORS
  */
-const getAllClasses = classes => ({type: GET_ALL_CLASSES, classes })
+const getAllClasses = classes => ({ type: GET_ALL_CLASSES, classes })
 
 /**
  * THUNK CREATORS
@@ -21,9 +23,12 @@ const getAllClasses = classes => ({type: GET_ALL_CLASSES, classes })
 export const fetchAllClasses = () => {
   return dispatch => {
     return axios.get('/api/classes')
-    .then(res =>
-      dispatch(getAllClasses(res.data || defaultClasses)))
-      .catch(err => console.log(err))
+      .then(res =>
+        dispatch(getAllClasses(res.data || defaultClasses)))
+      .catch(error => {
+        console.log(error)
+        dispatch(serverError(error))
+      })
   }
 }
 
