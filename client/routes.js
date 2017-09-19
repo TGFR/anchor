@@ -96,7 +96,9 @@ const mapDispatch = (dispatch) => {
     loadInitialData: () => {
       dispatch(me())
       .then( res => {
-        dispatch(fetchMyOrders(res.user.id))
+        if (res.user.id){
+          dispatch(fetchMyOrders(res.user.id))
+        }
       })
       .catch( err => {
         dispatch(clearMyOrders())
