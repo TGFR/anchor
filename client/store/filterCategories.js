@@ -16,7 +16,7 @@ const defaultFilterCategories = [];
  */
 export const addFilterCategory = (category) => { return { type: ADD_FILTER_CATEGORY, category } }
 export const removeFilterCategory = (category) => { return { type: REMOVE_FILTER_CATEGORY, category } }
-export const clearFilterCategory = () => { return { type: CLEAR_FILTER_CATEGORIES } }
+export const clearFilterCategories = () => { return { type: CLEAR_FILTER_CATEGORIES } }
 
 /**
  * REDUCER

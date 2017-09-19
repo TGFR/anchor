@@ -3,6 +3,8 @@ import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Card, Container, Icon, Image, Input } from 'semantic-ui-react'
 import Filter from './filter'
+import { clearFilterCategories } from '../store'
+
 /**
  * COMPONENT
  */
@@ -17,7 +19,7 @@ const ClassList = props => {
   if (props.filterCategories.length) {
     classes = classes.filter(lesson => {
       for (let i = 0; i < props.filterCategories.length; i++) {
-        for (let j = 0; j < lesson.categories.length; j++){
+        for (let j = 0; j < lesson.categories.length; j++) {
           if (lesson.categories[j].id === props.filterCategories[i].id) return true;
         }
 
@@ -47,6 +49,7 @@ const ClassList = props => {
     </div>
   )
 }
+
 
 /**
  * CONTAINER
