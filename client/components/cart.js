@@ -13,7 +13,12 @@ import {
        } from 'semantic-ui-react'
 
 //LOCAL MODULES
-import { checkOut, updateItem } from '../store/cart'
+import {
+        checkOut,
+        updateItem,
+        removeFromCart,
+        clearCart,
+         } from '../store/cart'
 import EmptyCart from './cart/emptyCart'
 
 
@@ -25,6 +30,14 @@ class Cart extends Component {
   handleUpdateQuantity = (e, classId) => {
     const quantity = e.target.value;
     this.props.updateCart({[classId]: quantity})
+  }
+
+  handleDeleteItem = (e, classId) => {
+    this.props.removeItemFromCart(classId);
+  }
+
+  handleClearCart = (e) => {
+    this.props.cleanCart();
   }
 
   handleSubmit = e => {
@@ -69,7 +82,7 @@ class Cart extends Component {
             <input onChange={(e) => this.handleUpdateQuantity(e, item[0])} type='number' name='order-item-id' min={1} max={lesson.quantity} defaultValue={item[1]} />
           </Table.Cell>
           <Table.Cell>${lesson.price * item[1]}</Table.Cell>
-          <Table.Cell><Icon name='remove circle outline' size='big' color='red' /></Table.Cell>
+          <Table.Cell><Icon onClick={(e) => this.handleDeleteItem(e, item[0])} name='remove circle outline' size='big' color='red' /></Table.Cell>
         </Table.Row>
       )
     })
@@ -83,7 +96,7 @@ class Cart extends Component {
             <Table.HeaderCell>Price</Table.HeaderCell>
             <Table.HeaderCell>Quantity</Table.HeaderCell>
             <Table.HeaderCell>Subtotal</Table.HeaderCell>
-            <Table.HeaderCell><Button negative>Clear Cart </Button> </Table.HeaderCell>
+            <Table.HeaderCell><Button onClick={this.handleClearCart} negative>Clear Cart </Button> </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
     
@@ -118,8 +131,12 @@ const mapDispatchToProps = dispatch => {
       dispatch(checkOut(order));
     },
     updateCart: cartItem => {
-      dispatch(updateItem(cartItem))
+      dispatch(updateItem(cartItem));
     },
+    removeItemFromCart: classId => {
+      dispatch(removeFromCart(classId));
+    },
+    cleanCart: () => dispatch(clearCart())
   }
 }
 
