@@ -15,7 +15,7 @@ const Review = require('./review')
 // users have many classes, reviews, orders
 User.hasMany(Class);
 User.hasMany(Review);
-User.hasMany(Order);
+User.hasMany(Order, {onDelete: 'CASCADE'});
 
 //classes have many reviews, categories, orderItems
 Class.hasMany(Review);
