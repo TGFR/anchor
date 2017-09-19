@@ -11,10 +11,8 @@ import EmptyCart from './cart/emptyCart'
 class Cart extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      view: 'guest'
-    }
   }
+
 
   handleSubmit = e => {
     console.log('created order!')
@@ -24,15 +22,15 @@ class Cart extends Component {
   }
 
   render() {
+    // let items = Object.keys(this.props.cart);
     let button;
-    let { view } = this.state.view
-    {/* {this.props.user.keys.length ? view = 'user' : view = 'guest'} */}
+    let isUserLoggedIn = Object.keys(this.props.user).length ? true : false;
 
-    switch (this.state.view) {
-      case 'user':
+    switch (isUserLoggedIn) {
+      case true:
         button = <Button onClick={this.handleSubmit} color='teal'><Icon name='cart'/>Checkout</Button>
         break
-      case 'guest':
+      case false:
         button = <Input
                     action={{onClick: this.handleSubmit, color: 'teal', labelPosition: 'left', icon: 'cart', content: 'Checkout' }}
                     actionPosition='right'
@@ -42,7 +40,13 @@ class Cart extends Component {
                   />
         break
       default:
-        break;
+      button = <Input
+                  action={{onClick: this.handleSubmit, color: 'teal', labelPosition: 'left', icon: 'cart', content: 'Checkout' }}
+                  actionPosition='right'
+                  placeholder='Please enter your email'
+                  defaultValue=''
+                  type='text'
+                />
     }
 
     let cartDetail = <Container textAlign='center'>
@@ -51,7 +55,7 @@ class Cart extends Component {
         <Segment raised className='order-item'>
           <span>Class Title</span>
           <span>Price</span>
-          <span>Quantity <input type='number' name='order-item-id' min={1} max={10} defaultValue={1}/> </span>
+          <span>Quantity <input type='number' name='order-item-id' min={1} max={10} defaultValue={this.props.cart[2]}/> </span>
           <span>Item Subtotal</span>
           <Icon name='remove circle outline' size='big' color='red' />
         </Segment>
@@ -63,13 +67,15 @@ class Cart extends Component {
         {button}
     </Container>
     
-    return this.state.view === 'empty' ? <EmptyCart /> : cartDetail;
+    return Object.keys(this.props.cart).length ? cartDetail : <EmptyCart />;
   }
 }
 
 const mapStateToProps = state => {
   return {
     user: state.user,
+    cart: state.cart,
+    classes: state.classes,
   }
 }
 
