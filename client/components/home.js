@@ -7,7 +7,6 @@ const Home = () => {
 
   return (
     <div style={{height: '100vh', backgroundImage: 'url("splash.jpg")', backgroundSize: 'cover', paddingTop: '15px'}} >
-    <SearchBar size='big' />
     </div>
   )
 }
