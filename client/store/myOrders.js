@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
+import { serverError } from './errors';
 
 /**
  * ACTION TYPES
@@ -25,7 +26,10 @@ export const fetchMyOrders = userId => {
     return axios.get(`/api/orders/users/${userId}`)
     .then(res =>
       dispatch(getMyOrders(res.data || defaultMyOrders)))
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        dispatch(serverError(err))
+      })
   }
 }
 
