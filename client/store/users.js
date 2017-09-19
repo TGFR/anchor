@@ -7,6 +7,7 @@ import { serverError } from './errors'
  */
 const GET_ALL_USERS = 'GET_ALL_USERS'
 const CLEAR_USERS = 'CLEAR_USERS'
+const DELETE_USER = 'DELETE_USER'
 
 /**
  * INITIAL STATE
@@ -18,6 +19,7 @@ const defaultUsers = []
  */
 export const getUsers = users => ({type: GET_ALL_USERS, users})
 export const clearUsers = () => ({type: CLEAR_USERS})
+export const delUser = (id) => ({type: DELETE_USER, id})
 
 /**
  * THUNK CREATORS
@@ -35,6 +37,17 @@ export const fetchAllUsers = () => {
 
 }
 
+export const deleteUser = (id) => {
+  return dispatch => {
+    axios.delete(`/api/users/${id}`)
+    .then(() => dispatch(delUser(id)))
+    .catch(error => {
+      console.log(error)
+      dispatch(serverError(error))
+    })
+  }
+}
+
 /**
  * REDUCER
  */
@@ -44,6 +57,9 @@ export default function (users = defaultUsers, action) {
       return action.users
     case CLEAR_USERS:
       return []
+    case DELETE_USER:
+      return users.filter(user => user.id !== action.id)
+
     default:
       return users
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Header, Table, Checkbox, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import {deleteUser} from '../store'
 
 const UserList = (props) => {
   const {users} = props;
@@ -13,7 +14,7 @@ const UserList = (props) => {
         <Table.Cell>{user.email}</Table.Cell>
         <Table.Cell>{user.privilege}</Table.Cell>
         <Table.Cell>{user.privilege ==='authenticated' ? <Button color='purple'>Promote</Button> : null} </Table.Cell>
-        <Table.Cell><Button color='red'>Delete</Button> </Table.Cell>
+        <Table.Cell><Button onClick={() => props.deleteUser(user.id)} color='red'>Delete</Button> </Table.Cell>
         <Table.Cell><Button color='black'>Reset Password</Button></Table.Cell>
       </Table.Row>
     )
@@ -52,8 +53,10 @@ const mapState = (state) => {
   }
 }
 
-const mapDispatch = () => {
-  return {};
+const mapDispatch = (dispatch) => {
+  return {
+    deleteUser: id => dispatch(deleteUser(id))
+  };
 }
 
 
