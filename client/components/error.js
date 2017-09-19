@@ -34,7 +34,7 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    clearErrors: () => dispatch(clearErrors)
+    clearErrors: () => dispatch(clearErrors())
   }
 }
 
