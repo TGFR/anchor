@@ -9,7 +9,7 @@
   "scripts": {
     "build-client": "webpack",
     "build-client-watch": "webpack -w",
-    "deploy": "git checkout -b deploy && webpack -p && git add -f public/bundle.js public/bundle.js.map && git commit --allow-empty -m 'Deploying' && git push --force heroku deploy:master && git checkout master && git branch -D deploy",
+    "deploy": "node seed.js && git checkout -b deploy && webpack -p && git add -f public/bundle.js public/bundle.js.map && git commit --allow-empty -m 'Deploying' && git push --force heroku deploy:master && git checkout master && git branch -D deploy",
     "start": "node server",
     "start-dev": "npm run build-client-watch & npm run start-server",
     "start-server": "NODE_ENV='development' nodemon server -e html,js,scss --ignore public",
@@ -40,7 +40,8 @@
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.73.0",
     "sequelize": "^4.3.1",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "faker": "^4.1.0"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.9.0",
