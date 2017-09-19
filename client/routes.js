@@ -96,7 +96,7 @@ const mapDispatch = (dispatch) => {
     loadInitialData: () => {
       dispatch(me())
       .then( res => {
-        if(res.user.id) {
+        if (res.user.id){
           dispatch(fetchMyOrders(res.user.id))
         }
       })
