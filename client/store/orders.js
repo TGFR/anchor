@@ -1,6 +1,7 @@
 // NOTE This is the store for all users, and will only be filled in for admins
 // Look for the myOrders in the store for user-specific orders
 import axios from 'axios'
+import { serverError, applicationError } from './errors'
 
 /**
  * ACTION TYPES
@@ -16,8 +17,8 @@ const defaultOrders = []
 /**
  * ACTION CREATORS
  */
-export const getOrders = orders => ({type: GET_ORDERS, orders })
-export const clearOrders = () => ({type: CLEAR_ORDERS })
+export const getOrders = orders => ({ type: GET_ORDERS, orders })
+export const clearOrders = () => ({ type: CLEAR_ORDERS })
 
 /**
  * THUNK CREATORS
@@ -25,9 +26,12 @@ export const clearOrders = () => ({type: CLEAR_ORDERS })
 export const fetchOrders = () => {
   return dispatch => {
     return axios.get('/api/orders')
-    .then(res =>
-      dispatch(getOrders(res.data || defaultOrders)))
-      .catch(err => console.log(err))
+      .then(res =>
+        dispatch(getOrders(res.data || defaultOrders)))
+      .catch(err => {
+        console.log(err)
+        dispatch(serverError(err))
+      })
   }
 }
 

@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { serverError } from './errors'
+
 
 /**
  * ACTION TYPES
@@ -23,7 +25,10 @@ export const fetchCategories = () => {
     return axios.get('/api/categories')
     .then(res =>
       dispatch(getAllCategories(res.data || defaultCategories)))
-      .catch(err => console.log(err))
+      .catch(error => {
+        console.log(error)
+        dispatch(serverError(error))
+      })
   }
 }
 

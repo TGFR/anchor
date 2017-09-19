@@ -25,7 +25,10 @@ export const fetchAllUsers = () => {
     axios.get('/api/users')
     .then(res =>
       dispatch(getUsers(res.data || defaultUsers)))
-      .catch(err => console.log(err))
+      .catch(error => {
+        console.log(error)
+        dispatch(serverError(error))
+      })
   }
 
 }

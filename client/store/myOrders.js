@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { serverError } from './errors';
+import { serverError, applicationError } from './errors';
 
 /**
  * ACTION TYPES
@@ -23,6 +23,7 @@ export const clearMyOrders = () => ({type: CLEAR_MY_ORDERS })
  */
 export const fetchMyOrders = userId => {
   return dispatch => {
+    if (!userId) return dispatch(applicationError(Error('Trying to fetch orders when user is not logged in')))
     return axios.get(`/api/orders/users/${userId}`)
     .then(res =>
       dispatch(getMyOrders(res.data || defaultMyOrders)))
