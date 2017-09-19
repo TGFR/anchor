@@ -19,6 +19,7 @@ import {
 import {
         me,
         fetchAllClasses,
+        fetchCart,
         fetchOrders,
         fetchAllUsers,
         fetchMyOrders,
@@ -81,6 +82,7 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   // TODO get current user id
+  // TODO eliminate unnecessary dispatches
   return {
     loadInitialData: () => {
       dispatch(me())
@@ -93,8 +95,9 @@ const mapDispatch = (dispatch) => {
         console.error(err)
       })
       dispatch(fetchAllClasses())
-      dispatch(fetchOrders())
-      dispatch(fetchAllUsers())
+      dispatch(fetchCart())
+      // dispatch(fetchOrders())
+      // dispatch(fetchAllUsers())
       dispatch(fetchCategories())
     }
   }

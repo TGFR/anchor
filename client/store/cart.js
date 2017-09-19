@@ -92,20 +92,13 @@ export default function (cart = defaultCart, action) {
     case CLEAR_CART:
       return defaultCart;
     case ADD_CART_ITEM:
-      //find the id of the class
-      classId = Object.keys(action.item)[0];
-      if (classId in cart) {
-        newCart = { ...cart };
-        newCart[classId] += action[classId];
-        return newCart;
-      }
-      //if the item isn't in the cart yet, just copy it in
-      return { ...cart, ...action.item };
+      return action.item;
     case REMOVE_CART_ITEM:
-      classId = action.itemId;
-      newCart = { ...cart };
-      delete (newCart[classId]);
-      return newCart;
+      // classId = action.itemId;
+      // newCart = { ...cart };
+      // delete (newCart[classId]);
+      // return newCart;
+      return action.item;
     case UPDATE_CART_ITEM:
       return {...cart, ...action.item}
     default:
