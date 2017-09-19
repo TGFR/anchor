@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { serverError } from './errors'
+
 
 /**
  * ACTION TYPES
