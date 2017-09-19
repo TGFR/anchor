@@ -1,10 +1,19 @@
 //NODE MODULES
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Container, Header, Input, Icon, Label, Segment, Table } from 'semantic-ui-react'
+import {
+        Button,
+        Container,
+        Header,
+        Input,
+        Icon,
+        Label,
+        Segment,
+        Table,
+       } from 'semantic-ui-react'
 
 //LOCAL MODULES
-import { checkOut } from '../store/cart'
+import { checkOut, updateItem } from '../store/cart'
 import EmptyCart from './cart/emptyCart'
 
 
@@ -13,6 +22,10 @@ class Cart extends Component {
     super(props);
   }
 
+  handleUpdateQuantity = (e, classId) => {
+    const quantity = e.target.value;
+    this.props.updateCart({[classId]: quantity})
+  }
 
   handleSubmit = e => {
     console.log('created order!')
@@ -49,11 +62,11 @@ class Cart extends Component {
       subtotal += item[1] * lesson.price;
 
       return (
-        <Table.Row>
+        <Table.Row key={lesson.id}>
           <Table.Cell textAlign='left'>{lesson.title}</Table.Cell>
           <Table.Cell>${lesson.price}</Table.Cell>
           <Table.Cell selectable>
-            <input type='number' name='order-item-id' min={1} max={lesson.quantity} defaultValue={item[1]} />
+            <input onChange={(e) => this.handleUpdateQuantity(e, item[0])} type='number' name='order-item-id' min={1} max={lesson.quantity} defaultValue={item[1]} />
           </Table.Cell>
           <Table.Cell>${lesson.price * item[1]}</Table.Cell>
           <Table.Cell><Icon name='remove circle outline' size='big' color='red' /></Table.Cell>
@@ -103,6 +116,9 @@ const mapDispatchToProps = dispatch => {
   return {
     createOrder: order => {
       dispatch(checkOut(order));
+    },
+    updateCart: cartItem => {
+      dispatch(updateItem(cartItem))
     },
   }
 }
