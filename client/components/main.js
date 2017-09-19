@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {logout} from '../store'
 import NavBar from './nav-bar';
+import ErrorDisplay from './error'
 
 /**
  * COMPONENT
@@ -17,6 +18,7 @@ const Main = (props) => {
   return (
     <div>
       <NavBar />
+      <ErrorDisplay />
       {children}
     </div>
   )

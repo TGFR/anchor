@@ -1,13 +1,13 @@
 /* eslint new-cap:0 */
 const router = require('express').Router()
-const {Class} = require('../db/models')
+const {Class, Category} = require('../db/models')
 const { isAdmin } = require('./gatekeepers');
 
 module.exports = router
 
 //returns all classes from the database
 router.get('/', (req, res, next) => {
-  Class.findAll({})
+  Class.findAll({include: [Category]})
     .then(classes => res.json(classes))
     .catch(next)
 })

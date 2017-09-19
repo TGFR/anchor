@@ -9,6 +9,8 @@ import myOrders from './myOrders'
 import cart from './cart'
 import filter from './filter'
 import categories from './categories'
+import errors from './errors'
+import filterCategories from './filterCategories'
 
 const reducer = combineReducers({
   user,
@@ -18,7 +20,9 @@ const reducer = combineReducers({
   myOrders,
   cart,
   filter,
-  categories
+  categories,
+  errors,
+  filterCategories
 })
 
 
@@ -43,3 +47,5 @@ export * from './myOrders'
 export * from './cart'
 export * from './categories'
 export * from './filter'
+export * from './errors'
+export * from './filterCategories'

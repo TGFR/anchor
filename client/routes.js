@@ -15,6 +15,7 @@ import {
         OrderList,
         SingleClass,
         UserOrders,
+        AdminPage
       } from './components'
 import {
         me,
@@ -38,6 +39,9 @@ class Routes extends Component {
 
   render () {
     const {isLoggedIn} = this.props
+    const {isAdmin} = this.props
+    console.log(isAdmin)
+
     return (
 
       <Router history={history}>
@@ -58,7 +62,11 @@ class Routes extends Component {
                   <Route path='/home' component={UserHome} />
                   <Route path='/admin/orders' component={OrderList} />
                   <Route path='/orders' component={UserOrders} />
+                  {isAdmin && <Route path='/admin' component={AdminPage} />}
                 </Switch>
+            }
+            {
+
             }
             {/* Displays our Login component as a fallback */}
             {/* <Route component={Login} /> */}
@@ -76,7 +84,8 @@ const mapState = (state) => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.privilege === 'admin'
   }
 }
 
@@ -96,8 +105,7 @@ const mapDispatch = (dispatch) => {
       })
       dispatch(fetchAllClasses())
       dispatch(fetchCart())
-      // dispatch(fetchOrders())
-      // dispatch(fetchAllUsers())
+      // isAdmin ? dispatch(fetchOrders()) dispatch(fetchAllUsers()) : null
       dispatch(fetchCategories())
     }
   }

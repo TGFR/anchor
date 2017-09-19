@@ -21,7 +21,6 @@ class NavBar extends React.Component {
 
   render() {
     const { activeItem } = this.state
-
     return (
       <Menu>
         <Menu.Item
@@ -37,19 +36,19 @@ class NavBar extends React.Component {
           as={Link}
           to='/classes'
           name='browseAll'
-          onClick={this.handleItemClick}          
+          onClick={this.handleItemClick}
         >
           Browse All
         </Menu.Item>
 
-        {this.state.admin && <Menu.Item
+        {this.props.isAdmin ? <Menu.Item
           name='admin'
         >
-          <Button color="purple">
+          <Button as={Link} to='/admin' color="purple">
             Admin Page
         </Button>
         </Menu.Item>
-        }
+        : null}
 
           <Menu.Menu position="right">
 
@@ -90,7 +89,8 @@ class NavBar extends React.Component {
 
 }
 
-const mapProps = ({ user }) => ({ loggedIn: Object.keys(user).length > 0 });
+const mapProps = ({ user }) => ({ loggedIn: Object.keys(user).length > 0, isAdmin: user.privilege === 'admin'
+});
 // const mapState = ({user}) => ({user})
 
 const mapDispatch = dispatch => ({
