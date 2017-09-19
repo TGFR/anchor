@@ -16,11 +16,11 @@ const defaultErrors = [];
 /**
  * ACTION CREATORS
  */
-export const applicationError = (err) => { return { type: APPLICATION_ERROR, err } }
-export const serverError = (err) => { return { type: SERVER_ERROR, err } }
-export const formInputError = (err) => { return { type: FORM_INPUT_ERROR, err } }
+export const applicationError = (error) => { return { type: APPLICATION_ERROR, error } }
+export const serverError = (error) => { return { type: SERVER_ERROR, error } }
+export const formInputError = (error) => { return { type: FORM_INPUT_ERROR, error } }
 export const clearErrors = () => { return { type: CLEAR_ERRORS } }
-export const removeError = (err) => { return { type: REMOVE_ERROR, err } }
+export const removeError = (error) => { return { type: REMOVE_ERROR, error } }
 
 
 /**
