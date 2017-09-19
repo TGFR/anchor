@@ -21,7 +21,7 @@ const UserList = (props) => {
   }) : <Table.Row></Table.Row>
   return (
     <div>
-      <Header as='h2' textAlign='center'>Orders</Header>
+      <Header as='h2' textAlign='center'>Users</Header>
       <Table compact celled definition>
 
         <Table.Header>

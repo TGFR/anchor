@@ -1,5 +1,8 @@
 import axios from 'axios'
 
+import {fetchMyOrders} from './myOrders'
+import {fetchAllClasses} from './classes'
+
 /**
  * ACTION TYPES
  */
@@ -76,10 +79,12 @@ export const clearCart = () => {
   }
 }
 
-export const checkOut = (order) => {
+export const checkOut = (userEmail = '', userId) => {
   return dispatch => {
-    return axios.post('api/orders', order)
+    return axios.post('api/orders', userEmail)
     .then( () => dispatch(clearCart()))
+    .then( () => dispatch(fetchAllClasses()))
+    .then( () => dispatch(fetchMyOrders(userId)))
     .catch(err => console.log(err))
   }
 }

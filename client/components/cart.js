@@ -19,6 +19,7 @@ import {
         removeFromCart,
         clearCart,
          } from '../store/cart'
+import {formInputError} from '../store'
 import EmptyCart from './cart/emptyCart'
 
 
@@ -40,11 +41,16 @@ class Cart extends Component {
     this.props.cleanCart();
   }
 
-  handleSubmit = e => {
-    console.log('created order!')
-    //Below is the connection to the thunk from the store
-    //uncomment it when we are ready to test creating an order
-    // this.props.createOrder('created order!')
+  handleSubmit = (e, userEmail = '', userId) => {
+    //Below is the email validation field
+    // if(userEmail) {
+    //   let filter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    //   filter.test(userEmail) ?
+    //   this.props.createOrder(userEmail, userId) :
+    //   this.props.formError(new Error('Please enter a valid email address'))
+    //   return;
+    // }
+    this.props.createOrder(userEmail, userId);
   }
 
   render() {
@@ -52,10 +58,10 @@ class Cart extends Component {
     let isUserLoggedIn = Object.keys(this.props.user).length ? true : false;
 
     if (isUserLoggedIn) {
-      button = <Button onClick={this.handleSubmit} color='teal'><Icon name='cart' />Checkout</Button>
+      button = <Button onClick={e => this.handleSubmit(e, '', this.props.user.id)} color='teal'><Icon name='cart' />Checkout</Button>
     } else {
       button = <Input
-        action={{ onClick: this.handleSubmit, color: 'teal', labelPosition: 'left', icon: 'cart', content: 'Checkout' }}
+        action={{ onClick: e => this.handleSubmit(e, 'TODO_on_cart_component', ''), color: 'teal', labelPosition: 'left', icon: 'cart', content: 'Checkout' }}
         actionPosition='right'
         placeholder='Please enter your email'
         defaultValue=''
@@ -127,8 +133,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createOrder: order => {
-      dispatch(checkOut(order));
+    createOrder: (userEmail = '', userId) => {
+      dispatch(checkOut(userEmail, userId));
     },
     updateCart: cartItem => {
       dispatch(updateItem(cartItem));
@@ -136,7 +142,8 @@ const mapDispatchToProps = dispatch => {
     removeItemFromCart: classId => {
       dispatch(removeFromCart(classId));
     },
-    cleanCart: () => dispatch(clearCart())
+    cleanCart: () => dispatch(clearCart()),
+    formError: error => dispatch(formInputError(error)),
   }
 }
 
