@@ -27,6 +27,7 @@ export const removeError = (err) => { return { type: REMOVE_ERROR, err } }
  * REDUCER
  */
 export default function (errors = defaultErrors, action) {
+  let errorIndex;
   switch (action.type) {
     case APPLICATION_ERROR:
     case SERVER_ERROR:
@@ -35,7 +36,7 @@ export default function (errors = defaultErrors, action) {
     case CLEAR_ERRORS:
       return defaultErrors;
     case REMOVE_ERROR:
-      let errorIndex = errors.findIndex((err) => {
+      errorIndex = errors.findIndex((err) => {
         //There may be a better way to match these
         return err.name === action.error.name;
       });
