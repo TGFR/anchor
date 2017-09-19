@@ -15,7 +15,7 @@ class Filter extends React.Component {
   }
 
   handleChecking (id) {
-    let currentCategory = this.props.categories.find(catFound => Number(catFound.id) === id)
+    let currentCategory = this.props.categories.find(catFound => Number(catFound.id) === id);
 
     if (!this.props.filterCategories.includes(currentCategory)) {
       this.props.addFilterCategory(currentCategory);
