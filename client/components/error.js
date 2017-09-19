@@ -13,7 +13,7 @@ const ErrorDisplay = (props) => {
         props.errors.map((err, index) => {
           return (
             <Container key={index}>
-              <Header>{err.name}</Header>
+              <Header>{err.message}</Header>
               <Container text={true}>{err.content}</Container>
             </Container>
           )
