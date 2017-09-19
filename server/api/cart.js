@@ -7,7 +7,6 @@ module.exports = router
 
 // Get the cart from the session
 router.get('/', (req, res, next) => {
-  console.log('req.session.cart: ', req.session.cart);
   res.send(req.session.cart);
 })
 
@@ -51,7 +50,7 @@ router.delete('/', function(req, res, next) {
 router.put('/', function(req, res, next) {
   const cartItem = req.body;
   const classId = Object.keys(cartItem)[0];
-  const quantity = cartItem[classId];
+  const quantity = Number(cartItem[classId]);
   if (!req.session.cart || !req.session.cart[classId]) {
     res.sendStatus(400);
   } else if (quantity === 0) {
