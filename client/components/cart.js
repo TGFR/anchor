@@ -1,7 +1,7 @@
 //NODE MODULES
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Container, Header, Input, Icon, Label, Segment } from 'semantic-ui-react'
+import { Button, Container, Header, Input, Icon, Label, Segment, Table } from 'semantic-ui-react'
 
 //LOCAL MODULES
 import { checkOut } from '../store/cart'
@@ -22,51 +22,71 @@ class Cart extends Component {
   }
 
   render() {
-    // let items = Object.keys(this.props.cart);
     let button;
     let isUserLoggedIn = Object.keys(this.props.user).length ? true : false;
 
-    switch (isUserLoggedIn) {
-      case true:
-        button = <Button onClick={this.handleSubmit} color='teal'><Icon name='cart'/>Checkout</Button>
-        break
-      case false:
-        button = <Input
-                    action={{onClick: this.handleSubmit, color: 'teal', labelPosition: 'left', icon: 'cart', content: 'Checkout' }}
-                    actionPosition='right'
-                    placeholder='Please enter your email'
-                    defaultValue=''
-                    type='text'
-                  />
-        break
-      default:
+    if (isUserLoggedIn) {
+      button = <Button onClick={this.handleSubmit} color='teal'><Icon name='cart' />Checkout</Button>
+    } else {
       button = <Input
-                  action={{onClick: this.handleSubmit, color: 'teal', labelPosition: 'left', icon: 'cart', content: 'Checkout' }}
-                  actionPosition='right'
-                  placeholder='Please enter your email'
-                  defaultValue=''
-                  type='text'
-                />
+        action={{ onClick: this.handleSubmit, color: 'teal', labelPosition: 'left', icon: 'cart', content: 'Checkout' }}
+        actionPosition='right'
+        placeholder='Please enter your email'
+        defaultValue=''
+        type='text'
+      />
     }
 
+    let orderItems = Object.entries(this.props.cart);
+    let subtotal = 0;
+
+    orderItems = orderItems.map(item => {
+      item[0] = Number(item[0]) //coerces string to number
+      const lesson = this.props.classes.filter(lesson => {
+        return lesson.id === item[0]
+      })[0]
+
+      subtotal += item[1] * lesson.price;
+
+      return (
+        <Table.Row>
+          <Table.Cell textAlign='left'>{lesson.title}</Table.Cell>
+          <Table.Cell>${lesson.price}</Table.Cell>
+          <Table.Cell selectable>
+            <input type='number' name='order-item-id' min={1} max={lesson.quantity} defaultValue={item[1]} />
+          </Table.Cell>
+          <Table.Cell>${lesson.price * item[1]}</Table.Cell>
+          <Table.Cell><Icon name='remove circle outline' size='big' color='red' /></Table.Cell>
+        </Table.Row>
+      )
+    })
+
     let cartDetail = <Container textAlign='center'>
-        <Header as='h2'textAlign='center' style={{margin: '15px'}}>My Cart</Header>
-          {/* If cart is not empty then we will display the following for each item in the cart */}
-        <Segment raised className='order-item'>
-          <span>Class Title</span>
-          <span>Price</span>
-          <span>Quantity <input type='number' name='order-item-id' min={1} max={10} defaultValue={this.props.cart[2]}/> </span>
-          <span>Item Subtotal</span>
-          <Icon name='remove circle outline' size='big' color='red' />
-        </Segment>
-        <Label>Order Subtotal</Label>
-        <Segment vertical basic>
-          <span>$99.99</span>
-        </Segment>
-        
-        {button}
-    </Container>
+      <Header as='h2' textAlign='center' style={{ margin: '15px' }}>My Cart</Header>
+        <Table textAlign='center'>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell textAlign='left'>Title</Table.HeaderCell>
+            <Table.HeaderCell>Price</Table.HeaderCell>
+            <Table.HeaderCell>Quantity</Table.HeaderCell>
+            <Table.HeaderCell>Subtotal</Table.HeaderCell>
+            <Table.HeaderCell><Button negative>Clear Cart </Button> </Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
     
+        <Table.Body>
+          {orderItems}
+        </Table.Body>
+      </Table>
+
+      <Label>Order Subtotal</Label>
+      <Segment vertical basic>
+        <span>${subtotal}</span>
+      </Segment>
+
+      {button}
+    </Container>
+
     return Object.keys(this.props.cart).length ? cartDetail : <EmptyCart />;
   }
 }
