@@ -20,14 +20,14 @@ describe('User routes', () => {
       })
     })
 
-    it('GET /api/users', () => {
+    it('GET /api/users fails when the user is not an admin', () => {
       return request(app)
         .get('/api/users')
-        .expect(200)
-        .then(res => {
-          expect(res.body).to.be.an('array')
-          expect(res.body[0].email).to.be.equal(codysEmail)
-        })
+        .expect(401) //the "user" is not an admin so this shouldn't return anything
+        // .then(res => {
+        //   expect(res.body).to.be.an('array')
+        //   expect(res.body[0].email).to.be.equal(codysEmail)
+        // })
     })
   }) // end describe('/api/users')
 }) // end describe('User routes')
